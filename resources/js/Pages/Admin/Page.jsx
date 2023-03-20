@@ -6,13 +6,20 @@ const Page = (props) => {
     const [selectedKecamatan, setSelectedKecamatan] = useState(null);
     const [selectedJenisPengaduan, setSelectedJenisPengaduan] = useState(null);
     const [form, setForm] = useState(false);
+    // const [formData, setFormData] = useState({
+    //     jenis_pengaduan: '',
+
+    // });
+
+    // const handle
 
     const handleKecamatanChange = (event) => {
         const selectedKecamatanId = event.target.value;
-        const selectedKecamatan = props.data.kecamatan.find(
-            (kecamatan) => kecamatan.id === Number(selectedKecamatanId)
+        const selectedDesa = props.kecamatan.find(
+            (desa) => desa.id === Number(selectedKecamatanId)
         );
-        setSelectedKecamatan(selectedKecamatan);
+        console.log(selectedDesa);
+        setSelectedKecamatan(selectedDesa);
     };
 
     const handleJenisPengaduanChange = (event) => {
@@ -25,14 +32,14 @@ const Page = (props) => {
         if (!selectedKecamatan) {
             return [];
         }
-        return selectedKecamatan.kelurahan.map((kelurahan) => (
-            <option key={kelurahan.id} value={kelurahan.id}>
-                {kelurahan.name}
+        return selectedKecamatan.desa.map((desa) => (
+            <option key={desa.id} value={desa.id}>
+                {desa.nama_desa}
             </option>
         ));
     };
 
-    console.log(selectedJenisPengaduan);
+    console.log(selectedKecamatan);
     return (
         <LogedLayouts>
             <Head>
@@ -48,20 +55,21 @@ const Page = (props) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <section className="relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full">
-                <div className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between">
+                <form className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between">
                     <h1 className="md:w-full">Form Input Pengaduan</h1>
                     <div className="form-control w-full max-w-xs">
                         <label className="label">
                             <span className="label-text">Jenis Pengaduan</span>
                         </label>
                         <select
+                            id="jenis_pengaduan"
                             className="select select-bordered"
                             onChange={handleJenisPengaduanChange}
                         >
                             <option disabled selected>
                                 Jenis Pengaduan
                             </option>
-                            {props.data1.map((data, i) => {
+                            {props.jenisPengaduan.map((data, i) => {
                                 return (
                                     <option key={i} value={data.id}>
                                         {data.jenis_pengaduan}
@@ -209,10 +217,10 @@ const Page = (props) => {
                                 <option disabled selected>
                                     Kecamatan
                                 </option>
-                                {props.data.kecamatan.map((data, i) => {
+                                {props.kecamatan.map((data, i) => {
                                     return (
                                         <option key={i} value={data.id}>
-                                            {data.name}
+                                            {data.nama_kecamatan}
                                         </option>
                                     );
                                 })}
@@ -239,7 +247,7 @@ const Page = (props) => {
                     <button className="mt-3 btn btn-info text-base-100">
                         Upload
                     </button>
-                </div>
+                </form>
             </section>
         </LogedLayouts>
     );

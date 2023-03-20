@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import React from "react";
 const UserDropdown = () => {
   return (
@@ -22,7 +23,7 @@ const UserDropdown = () => {
             <a>Settings</a>
           </li>
           <li>
-            <a>Logout</a>
+            <Link href="/logout" method="post" as="button" type="submit">Logout</Link>
           </li>
         </ul>
       </div>

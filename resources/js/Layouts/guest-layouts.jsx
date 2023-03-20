@@ -7,9 +7,9 @@ const GuestLayouts = ({ children }) => {
     <div className="relative w-full min-h-screen">
       <div className="navbar bg-transparent absolute flex-col md:flex-row">
         <div className="flex-1 justify-center md:justify-start">
-          <Link href='/' className="btn btn-ghost normal-case text-xl text-base-100 hover:bg-transparent hover:text-base-300">
+          <p className="btn btn-ghost normal-case text-xl text-base-100 hover:bg-transparent hover:text-base-300">
             Pendataan Pengaduan Masyarakat
-          </Link>
+          </p>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1 space-x-6">
@@ -72,7 +72,7 @@ const GuestLayouts = ({ children }) => {
           </div>
         </div>
         <div>
-          <p>Copyright © 2023 - All right reserved by ACME Industries Ltd</p>
+          <p>Copyright © 2023 - All right reserved </p>
         </div>
       </footer>
     </div>
