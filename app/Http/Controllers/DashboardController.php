@@ -19,22 +19,22 @@ class DashboardController extends Controller
   {
 
 
-    $jenisPengaduan = JenisPengaduan::all();
-    $kecamatan = [];
+    // $jenisPengaduan = JenisPengaduan::all();
+    // $kecamatan = [];
 
-    foreach (Kecamatan::all() as &$value) {
-      $data = $value;
-      $data->desa = Kecamatan::where('id', $data->id)->first()->desa;
-      $kecamatan[] = $data;
-    }
+    // foreach (Kecamatan::all() as &$value) {
+    //   $data = $value;
+    //   $data->desa = Kecamatan::where('id', $data->id)->first()->desa;
+    //   $kecamatan[] = $data;
+    // }
 
 
     $user = Auth()->user();
     $getUserLevel = DB::table('model_has_roles')->where('model_id', $user->id)->first();
     if ($getUserLevel->role_id === 1) {
-      return Inertia::render('Admin/Page', [
-        'kecamatan' => $kecamatan,
-        'jenisPengaduan' => $jenisPengaduan
+      return Inertia::render('Admin/Dashboard', [
+        // 'kecamatan' => $kecamatan,
+        // 'jenisPengaduan' => $jenisPengaduan
       ]);
     } else {
       return Inertia::render('Dashboard');
