@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisMediaPengaduan;
 use App\Models\JenisPengaduan;
 use App\Models\Kecamatan;
 use App\Models\Pemohon;
+use App\Models\Seksi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,7 +18,14 @@ class PemohonController extends Controller
   public function index()
   {
 
-    $jenisPengaduan = JenisPengaduan::all();
+    $jenisMediaPengaduan = JenisMediaPengaduan::all();
+    $semuaJenisPengaduan = JenisPengaduan::all();
+    $pengecualianJenisPengaduan = JenisPengaduan::where('jenis_pengaduan', 'pelanggaran disiplin Pegawai Negeri Sipil')->first();
+    $seksi = Seksi::all();
+    $jenisPengaduan = (object) [
+      'pengecualianJenisPengaduan' =>$pengecualianJenisPengaduan,
+      'semuaJenisPengaduan' => $semuaJenisPengaduan
+    ];
     $kecamatan = [];
 
     foreach (Kecamatan::all() as &$value) {
@@ -27,7 +36,9 @@ class PemohonController extends Controller
 
     return Inertia::render('Admin/Page', [
       'kecamatan' => $kecamatan,
-      'jenisPengaduan' => $jenisPengaduan
+      'jenisPengaduan' => $jenisPengaduan,
+      'jenisMediaPengaduan' => $jenisMediaPengaduan,
+      'seksi' => $seksi
     ]);
   }
 

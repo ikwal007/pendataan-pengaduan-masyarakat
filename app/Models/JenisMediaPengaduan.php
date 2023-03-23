@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Kecamatan extends Model
+class JenisMediaPengaduan extends Model
 {
     use HasFactory, HasUlids;
 
@@ -24,8 +23,4 @@ class Kecamatan extends Model
      * @var array
      */
     protected $guarded = ['id'];
-
-    public function desa(): HasMany {
-        return $this->hasMany(Desa::class);
-    }
 }

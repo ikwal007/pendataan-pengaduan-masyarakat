@@ -6,26 +6,52 @@ const Page = (props) => {
     const [selectedKecamatan, setSelectedKecamatan] = useState(null);
     const [selectedJenisPengaduan, setSelectedJenisPengaduan] = useState(null);
     const [form, setForm] = useState(false);
-    // const [formData, setFormData] = useState({
-    //     jenis_pengaduan: '',
+    const [formData, setFormData] = useState({
+        jenis_pengaduan: '',
+        jenis_media_pengaduan: '',
+        nama_pemohon: '',
+        no_nik: '',
+        no_hak: '',
+        jenis_sertifikat: '',
+        keterangan_laporan_pengaduan: '',
+        penanganan: {
+            ...props.seksi.reduce((obj, {id, nama_seksi}) => ({...obj, [id]: {id, nama_seksi, value: false}}), {})
+        },
+        kecamatan: '',
+        desa: '',
+    });
 
-    // });
-
-    // const handle
+    const handleFormData = e => {
+        const key = e.target.id
+        const value = e.target.value
+        setFormData(values => ({
+            ...values,
+            [key] : value
+        }))
+    }
 
     const handleKecamatanChange = (event) => {
+        const key = event.target.id
         const selectedKecamatanId = event.target.value;
         const selectedDesa = props.kecamatan.find(
-            (desa) => desa.id === Number(selectedKecamatanId)
+            (desa) => desa.id === String(selectedKecamatanId)
         );
-        console.log(selectedDesa);
         setSelectedKecamatan(selectedDesa);
+        setFormData(values => ({
+            ...values,
+            [key] : selectedKecamatanId
+        }))
     };
 
     const handleJenisPengaduanChange = (event) => {
+        const key = event.target.id
         const selectedJenisPengaduan = event.target.value;
         setSelectedJenisPengaduan(selectedJenisPengaduan);
-        selectedJenisPengaduan != 3 ? setForm(true) : setForm(false);
+        setFormData(values => ({
+            ...values,
+            [key] : selectedJenisPengaduan
+        }))
+        selectedJenisPengaduan != props.jenisPengaduan.pengecualianJenisPengaduan.id ? setForm(true) : setForm(false);
     };
 
     const getKelurahanOptions = () => {
@@ -39,7 +65,8 @@ const Page = (props) => {
         ));
     };
 
-    console.log(selectedKecamatan);
+    console.log(formData);
+
     return (
         <LogedLayouts>
             <Head>
@@ -55,7 +82,7 @@ const Page = (props) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <section className="relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full">
-                <form className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between">
+                <form className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between space-y-6">
                     <h1 className="md:w-full">Form Input Pengaduan</h1>
                     <div className="form-control w-full max-w-xs">
                         <label className="label">
@@ -69,7 +96,7 @@ const Page = (props) => {
                             <option disabled selected>
                                 Jenis Pengaduan
                             </option>
-                            {props.jenisPengaduan.map((data, i) => {
+                            {props.jenisPengaduan.semuaJenisPengaduan.map((data, i) => {
                                 return (
                                     <option key={i} value={data.id}>
                                         {data.jenis_pengaduan}
@@ -84,13 +111,13 @@ const Page = (props) => {
                                 Jenis Media Pengaduan
                             </span>
                         </label>
-                        <select className="select select-bordered">
+                        <select id="jenis_media_pengaduan" className="select select-bordered" onChange={handleFormData}>
                             <option disabled selected>
                                 Jenis Media Pengaduan
                             </option>
-                            <option>WhatsApp</option>
-                            <option>Sentuh Tanahku</option>
-                            <option>Google Form</option>
+                            {props.jenisMediaPengaduan.map((data, i) => {
+                                return <option key={i} value={data.id}>{data.nama_media_pengaduan}</option>
+                            })}
                         </select>
                     </div>
                     <div className="form-control w-full max-w-xs">
@@ -181,26 +208,20 @@ const Page = (props) => {
                     </div>
                     {form == true ? (
                         <div className="form-control flex-row flex-wrap justify-between">
-                            <label className="label cursor-pointer space-x-3">
-                                <span className="label-text">Seksi 1</span>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                            <label className="label cursor-pointer space-x-3">
-                                <span className="label-text">Seksi 2</span>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                            <label className="label cursor-pointer space-x-3">
-                                <span className="label-text">Seksi 3</span>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                            <label className="label cursor-pointer space-x-3">
-                                <span className="label-text">Seksi 4</span>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                            <label className="label cursor-pointer space-x-3">
-                                <span className="label-text">Seksi 5</span>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
+                            <span className="label-text w-full">Penanganan</span>
+                            {props.seksi.map((data, i) => {
+                                return (
+                                    <label className="label cursor-pointer space-x-3 w-2/5" key={i}>
+                                        <span className="label-text">
+                                            {data.nama_seksi}
+                                        </span>
+                                        <input
+                                            type="checkbox"
+                                            className="checkbox"
+                                        />
+                                    </label>
+                                );
+                            })}
                         </div>
                     ) : null}
 
@@ -233,9 +254,10 @@ const Page = (props) => {
                                 <span className="label-text">Kelurahan</span>
                             </label>
                             <select
-                                id="kelurahan"
+                                id="desa"
                                 className="select select-bordered"
                                 disabled={!selectedKecamatan}
+                                onChange={handleFormData}
                             >
                                 <option disabled selected>
                                     Kelurahan
@@ -244,9 +266,11 @@ const Page = (props) => {
                             </select>
                         </div>
                     ) : null}
-                    <button className="mt-3 btn btn-info text-base-100">
-                        Upload
-                    </button>
+                    <div className="w-full">
+                        <button className="mt-3 btn btn-info text-base-100">
+                            Upload
+                        </button>
+                    </div>
                 </form>
             </section>
         </LogedLayouts>
