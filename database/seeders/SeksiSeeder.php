@@ -26,7 +26,7 @@ class SeksiSeeder extends Seeder
             'nama_seksi' => 'seksi pengadaan tanah dan pengembangan'
         ]);
         Seksi::create([
-            'nama_seksi' => 'seksi pengendalian dan penangan sengketa'
+            'nama_seksi' => 'seksi pengendalian dan penanganan sengketa'
         ]);
     }
 }

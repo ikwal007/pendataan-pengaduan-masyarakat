@@ -12,15 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pemohons', function (Blueprint $table) {
-            $table->foreignUlid('id');
-            $table->string('jenis_pengaduan', 60);
-            $table->string('jenis_media_pengaduan', 20);
+            $table->ulid('id');
+            $table->foreignUlid('jenis_pengaduan_id');
+            $table->foreignUlid('jenis_media_pengaduan_id');
             $table->string('nama_pemohon', 50);
             $table->string('nik', 16)->nullable();
             $table->string('no_hak', 30)->nullable();
-            $table->string('jenis_sertifikat', 40)->nullable();
+            $table->foreignUlid('jenis_sertifikat_id')->nullable();
             $table->text('keterangan_pengaduan_pemohon');
-            $table->foreignUlid('penanganan_id')->nullable();
             $table->foreignUlid('kecamatan_id')->nullable();
             $table->foreignUlid('desa_id')->nullable();
             $table->timestamps();

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penanganans', function (Blueprint $table) {
-            $table->foreignUlid('pemohon_id');
-            $table->foreignUlid('seksi_id');
+        Schema::create('jenis_sertifikats', function (Blueprint $table) {
+            $table->ulid('id');
+            $table->string('jenis_sertifikat');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penanganans');
+        Schema::dropIfExists('jenis_sertifikats');
     }
 };

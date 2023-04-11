@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Penanganan extends Model
+class JenisSertifikat extends Model
 {
     use HasFactory, HasUlids;
+
     /**
      * The primary key associated with the table.
      *

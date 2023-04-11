@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JenisMediaPengaduan;
 use App\Models\JenisPengaduan;
+use App\Models\JenisSertifikat;
 use App\Models\Kecamatan;
 use App\Models\Pemohon;
 use App\Models\Seksi;
@@ -19,6 +20,7 @@ class PemohonController extends Controller
   {
 
     $jenisMediaPengaduan = JenisMediaPengaduan::all();
+    $jenisSertifikat = JenisSertifikat::all();
     $semuaJenisPengaduan = JenisPengaduan::all();
     $pengecualianJenisPengaduan = JenisPengaduan::where('jenis_pengaduan', 'pelanggaran disiplin Pegawai Negeri Sipil')->first();
     $seksi = Seksi::all();
@@ -38,6 +40,7 @@ class PemohonController extends Controller
       'kecamatan' => $kecamatan,
       'jenisPengaduan' => $jenisPengaduan,
       'jenisMediaPengaduan' => $jenisMediaPengaduan,
+      'jenisSertifikat' => $jenisSertifikat,
       'seksi' => $seksi
     ]);
   }
@@ -55,7 +58,7 @@ class PemohonController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    dd($request);
   }
 
   /**
