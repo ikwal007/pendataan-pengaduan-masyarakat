@@ -14,14 +14,16 @@ const Page = (props) => {
         no_hak: "",
         jenis_sertifikat: "",
         keterangan_laporan_pengaduan: "",
-        penanganan_seksi_survei_dan_pemetaan: false,
-        penanganan_seksi_penataan_dan_pemberdayaan: false,
-        penanganan_seksi_pengendalian_dan_penanganan_sengketa: false,
-        penanganan_seksi_penetapan_hak_dan_pendaftaran: false,
-        penanganan_seksi_pengadaan_tanah_dan_pengembangan: false,
+        seksi_survei_dan_pemetaan: false,
+        seksi_penataan_dan_pemberdayaan: false,
+        seksi_pengendalian_dan_penanganan_sengketa: false,
+        seksi_penetapan_hak_dan_pendaftaran: false,
+        seksi_pengadaan_tanah_dan_pengembangan: false,
         kecamatan: "",
         desa: "",
     });
+
+    console.log(formData);
 
     const handleFormData = (e) => {
         const { id, value, checked, type } = e.target;
@@ -92,7 +94,10 @@ const Page = (props) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <section className="relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full">
-                <form className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between space-y-6" onSubmit={handleSubmit}>
+                <form
+                    className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between space-y-6"
+                    onSubmit={handleSubmit}
+                >
                     <h1 className="md:w-full">Form Input Pengaduan</h1>
                     <div className="form-control w-full max-w-xs">
                         <label className="label">
@@ -192,7 +197,7 @@ const Page = (props) => {
                                 placeholder="Type here"
                                 className="input input-bordered w-full max-w-xs"
                             />
-                            <label className="label">
+                            {/* <label className="label">
                                 <span className="label-text-alt">
                                     Bottom Left label
                                 </span>
@@ -201,7 +206,7 @@ const Page = (props) => {
                                         Validation No Hak
                                     </button>
                                 </span>
-                            </label>
+                            </label> */}
                         </div>
                     ) : null}
                     {form == true ? (
@@ -258,7 +263,7 @@ const Page = (props) => {
                                             {data.nama_seksi}
                                         </span>
                                         <input
-                                            id={`penanganan_${data.nama_seksi.replace(
+                                            id={`${data.nama_seksi.replace(
                                                 / /g,
                                                 "_"
                                             )}`}

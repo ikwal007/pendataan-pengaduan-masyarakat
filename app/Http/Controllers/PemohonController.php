@@ -7,9 +7,11 @@ use App\Models\JenisPengaduan;
 use App\Models\JenisSertifikat;
 use App\Models\Kecamatan;
 use App\Models\Pemohon;
+use App\Models\Penanganan;
 use App\Models\Seksi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class PemohonController extends Controller
 {
@@ -25,7 +27,7 @@ class PemohonController extends Controller
     $pengecualianJenisPengaduan = JenisPengaduan::where('jenis_pengaduan', 'pelanggaran disiplin Pegawai Negeri Sipil')->first();
     $seksi = Seksi::all();
     $jenisPengaduan = (object) [
-      'pengecualianJenisPengaduan' =>$pengecualianJenisPengaduan,
+      'pengecualianJenisPengaduan' => $pengecualianJenisPengaduan,
       'semuaJenisPengaduan' => $semuaJenisPengaduan
     ];
     $kecamatan = [];
@@ -58,7 +60,38 @@ class PemohonController extends Controller
    */
   public function store(Request $request)
   {
-    dd($request);
+    $pemohon = new Pemohon;
+    $pemohon->id = (string) Str::ulid();
+    $pemohon->jenis_pengaduan_id = $request->jenis_pengaduan;
+    $pemohon->jenis_media_pengaduan_id = $request->jenis_media_pengaduan;
+    $pemohon->nama_pemohon = $request->nama_pemohon;
+    $pemohon->nik = $request->no_nik;
+    $pemohon->no_hak = $request->no_hak;
+    $pemohon->jenis_sertifikat_id = $request->jenis_sertifikat;
+    $pemohon->keterangan_pengaduan_pemohon = $request->keterangan_laporan_pengaduan;
+    $pemohon->kecamatan_id = $request->kecamatan;
+    $pemohon->desa_id = $request->desa;
+    $pemohon->save();
+
+    $seksiData = [
+      'seksi_survei_dan_pemetaan' => 'seksi survei dan pemetaan',
+      'seksi_penataan_dan_pemberdayaan' => 'seksi penataan dan pemberdayaan',
+      'seksi_pengendalian_dan_penanganan_sengketa' => 'seksi pengendalian dan penanganan sengketa',
+      'seksi_penetapan_hak_dan_pendaftaran' => 'seksi penetapan hak dan pendaftaran',
+      'seksi_pengadaan_tanah_dan_pengembangan' => 'seksi pengadaan tanah dan pengembangan'
+    ];
+
+    foreach ($seksiData as $seksiKey => $seksiValue) {
+      if ($request->$seksiKey === true) {
+        $findIdSeksi = Seksi::where('nama_seksi', $seksiValue)->first();
+
+        $penanganan = new Penanganan;
+        $penanganan->pemohon_id = $pemohon->id;
+        $penanganan->seksi_id = $findIdSeksi->id;
+        $penanganan->save();
+      }
+    };
+    return redirect('dashboard');
   }
 
   /**
