@@ -28,4 +28,9 @@ class Kecamatan extends Model
     public function desa(): HasMany {
         return $this->hasMany(Desa::class);
     }
+
+    public function pemohon()
+    {
+        return $this->hasMany(Pemohon::class);
+    }
 }

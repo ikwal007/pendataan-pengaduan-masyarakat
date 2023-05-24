@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Desa;
-use App\Models\JenisPengaduan;
-use App\Models\Kecamatan;
+use App\Models\Pemohon as P;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -17,24 +14,17 @@ class DashboardController extends Controller
    */
   public function index()
   {
-
-
-    // $jenisPengaduan = JenisPengaduan::all();
-    // $kecamatan = [];
-
-    // foreach (Kecamatan::all() as &$value) {
-    //   $data = $value;
-    //   $data->desa = Kecamatan::where('id', $data->id)->first()->desa;
-    //   $kecamatan[] = $data;
-    // }
-
-
     $user = Auth()->user();
+
     $getUserLevel = DB::table('model_has_roles')->where('model_id', $user->id)->first();
+
+    $pemohon = new P();
+
+    $getAllPemohonans = $pemohon->getAllPemohonans(10);
+
     if ($getUserLevel->role_id === 1) {
       return Inertia::render('Admin/Dashboard', [
-        // 'kecamatan' => $kecamatan,
-        // 'jenisPengaduan' => $jenisPengaduan
+        'allPemohonans' => $getAllPemohonans,
       ]);
     } else {
       return Inertia::render('Dashboard');

@@ -2,7 +2,8 @@ import LogedLayouts from "@/Layouts/loged-layouts";
 import { Head } from "@inertiajs/react";
 import React from "react";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+    console.log(props);
     return (
         <LogedLayouts>
             <Head>

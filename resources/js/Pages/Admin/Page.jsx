@@ -77,8 +77,6 @@ const Page = (props) => {
         router.post("/admin/pemohon", formData);
     }
 
-    console.log(formData);
-
     return (
         <LogedLayouts>
             <Head>
@@ -157,11 +155,11 @@ const Page = (props) => {
                             placeholder="Masukkan Nama Pemohon"
                             className="input input-bordered w-full max-w-xs"
                         />
-                        <label className="label">
+                        {/* <label className="label">
                             <span className="label-text-alt">
                                 Bottom Left label
                             </span>
-                        </label>
+                        </label> */}
                     </div>
                     {form == true ? (
                         <div className="form-control w-full max-w-xs">
@@ -176,11 +174,11 @@ const Page = (props) => {
                                 placeholder="Masukan NIK Pemohon"
                                 className="input input-bordered w-full max-w-xs"
                             />
-                            <label className="label">
+                            {/* <label className="label">
                                 <span className="label-text-alt">
                                     Bottom Left label
                                 </span>
-                            </label>
+                            </label> */}
                         </div>
                     ) : null}
 

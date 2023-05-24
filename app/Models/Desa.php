@@ -28,4 +28,9 @@ class Desa extends Model
     public function kecamatan(): BelongsTo {
         return $this->belongsTo(Kecamatan::class);
     }
+
+    public function pemohon()
+    {
+        return $this->hasMany(Pemohon::class);
+    }
 }

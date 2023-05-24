@@ -14,6 +14,9 @@ class JenisMediaPengaduanSeeder extends Seeder
     public function run(): void
     {
         JenisMediaPengaduan::create([
+            'nama_media_pengaduan' => 'Langsung'
+        ]);
+        JenisMediaPengaduan::create([
             'nama_media_pengaduan' => 'WhatsApp'
         ]);
         JenisMediaPengaduan::create([

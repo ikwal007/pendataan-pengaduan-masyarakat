@@ -22,4 +22,35 @@ class Pemohon extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function jenisPengaduan()
+    {
+        return $this->belongsTo(JenisPengaduan::class);
+    }
+
+    public function jenisMediaPengaduan()
+    {
+        return $this->belongsTo(JenisMediaPengaduan::class);
+    }
+
+    public function jenisSertifikat()
+    {
+        return $this->belongsTo(JenisSertifikat::class);
+    }
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(Kecamatan::class);
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
+
+    public function getAllPemohonans($perPage = 10)
+    {
+        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa'])
+            ->paginate($perPage);
+    }
 }

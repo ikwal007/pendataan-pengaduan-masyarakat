@@ -23,4 +23,9 @@ class JenisPengaduan extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function pemohon()
+    {
+        return $this->hasMany(Pemohon::class);
+    }
 }
