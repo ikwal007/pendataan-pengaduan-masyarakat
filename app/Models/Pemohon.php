@@ -51,6 +51,11 @@ class Pemohon extends Model
     public function getAllPemohonans($perPage = 10)
     {
         return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa'])
-            ->paginate($perPage);
+                    ->paginate($perPage);
+    }
+    public function getShowDetails($id)
+    {
+        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa'])
+                    ->find($id);
     }
 }

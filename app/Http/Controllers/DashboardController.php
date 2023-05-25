@@ -52,7 +52,12 @@ class DashboardController extends Controller
    */
   public function show(string $id)
   {
-    //
+    $pemohons = new P();
+    $showDetail = $pemohons->getShowDetails($id);
+
+    return Inertia::render('Admin/Show', [
+      'showDetail' => $showDetail,
+    ]);
   }
 
   /**

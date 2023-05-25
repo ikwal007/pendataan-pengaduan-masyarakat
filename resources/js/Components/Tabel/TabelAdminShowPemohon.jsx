@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import React from "react";
 
 const TabelAdminShowPemohon = ({allPemohonans}) => {
@@ -24,9 +25,9 @@ const TabelAdminShowPemohon = ({allPemohonans}) => {
                                       {data.jenis_pengaduan.jenis_pengaduan}
                                   </td>
                                   <td>
-                                      <button className="badge text-white badge-success gap-2">
+                                      <Link href={`/dashboard/${data.id}`} className="badge text-white badge-success gap-2">
                                           Lihat Info Lebih
-                                      </button>
+                                      </Link>
                                   </td>
                               </tr>
                           );
@@ -36,4 +37,4 @@ const TabelAdminShowPemohon = ({allPemohonans}) => {
     );
 };
 
-export default TabelAdminShowPemohon;
+export {TabelAdminShowPemohon};

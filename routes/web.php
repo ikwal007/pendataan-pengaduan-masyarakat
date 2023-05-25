@@ -28,6 +28,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard/{id}', [DashboardController::class, 'show']);
 
 Route::get('/admin/pemohon', [PemohonController::class, 'index'])->name('admin.pemohon')->middleware(['auth', 'verified', 'role:Super_Admin']);
 Route::post('/admin/pemohon', [PemohonController::class, 'store'])->name('admin.pemohon')->middleware(['auth', 'verified', 'role:Super_Admin']);
