@@ -23,4 +23,9 @@ class Seksi extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function penanganans()
+    {
+        return $this->hasMany(Penanganan::class);
+    }
 }

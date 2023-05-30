@@ -23,6 +23,11 @@ class Pemohon extends Model
      */
     protected $guarded = ['id'];
 
+    public function penanganan()
+    {
+        return $this->hasMany(Penanganan::class)->with('seksi');
+    }
+
     public function jenisPengaduan()
     {
         return $this->belongsTo(JenisPengaduan::class);
@@ -55,7 +60,7 @@ class Pemohon extends Model
     }
     public function getShowDetails($id)
     {
-        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa'])
+        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan'])
                     ->find($id);
     }
 }

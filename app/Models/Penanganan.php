@@ -22,4 +22,13 @@ class Penanganan extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function pemohon()
+    {
+        return $this->belongsTo(Pemohon::class);
+    }
+    public function seksi()
+    {
+        return $this->belongsTo(Seksi::class);
+    }
 }
