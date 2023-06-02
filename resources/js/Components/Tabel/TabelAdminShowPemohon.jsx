@@ -9,7 +9,7 @@ const TabelAdminShowPemohon = ({allPemohonans}) => {
                 <tr>
                     <th></th>
                     <th>Nama Pemohon</th>
-                    <th>Jenis Pengaduan</th>
+                    <th>Nik</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -22,7 +22,7 @@ const TabelAdminShowPemohon = ({allPemohonans}) => {
                                   <th>{i + 1}</th>
                                   <td>{data.nama_pemohon}</td>
                                   <td>
-                                      {data.jenis_pengaduan.jenis_pengaduan}
+                                      {data.nik}
                                   </td>
                                   <td>
                                       <Link href={`/dashboard/${data.id}`} className="badge text-white badge-success gap-2">

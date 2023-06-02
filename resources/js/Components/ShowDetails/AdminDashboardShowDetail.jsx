@@ -1,10 +1,17 @@
 import React from "react";
+import { AiFillCaretLeft } from "react-icons/ai";
 
-const AdminDashboardShowDetail = ({ data }) => {
-    console.log(data);
+const AdminDashboardShowDetail = ({ datas }) => {
+    const goBack = () => {
+        window.history.back();
+    };
+    console.log(datas);
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
             <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
+                <button onClick={goBack} className="flex items-center my-3">
+                    <AiFillCaretLeft /> Kembali
+                </button>
                 <div className="grid items-center grid-cols-1 lg:items-stretch md:grid-cols-2 gap-y-8 gap-x-12 xl:gap-x-20">
                     <div className="relative">
                         <div className="aspect-w-4 aspect-h-3">
@@ -14,48 +21,57 @@ const AdminDashboardShowDetail = ({ data }) => {
                                 alt=""
                             />
                         </div>
-
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="flex items-center justify-center rounded-full w-28 h-28 bg-white/20">
-                                <button
-                                    type="button"
-                                    className="flex items-center justify-center w-20 h-20 text-white transition-all duration-200 rounded-full bg-gradient-to-r from-fuchsia-600 to-blue-600 hover:opacity-90"
-                                >
-                                    <svg
-                                        className="w-6 h-6 lg:w-8 lg:h-8"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                    >
-                                        <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
                     </div>
 
                     <div className="flex flex-col justify-between md:py-5">
                         <blockquote>
-                            <p className="text-2xl leading-relaxed text-black">
-                                {data.keterangan_pengaduan_pemohon}
+                            <h3 className="text-xl font-semibold">
+                                Nama Pemohon:
+                            </h3>
+                            <p className="text-2xl pl-3 leading-relaxed text-black">
+                                {datas.nama_pemohon}
                             </p>
                         </blockquote>
 
                         <div className="mt-6 lg:mt-auto">
-                            <p className="text-xl font-semibold text-black">
-                                Jenny Wilson
+                            <h3 className="mt-2"> isi pengaduan : </h3>
+                            <p className="pl-3 text-base capitalize">
+                                {datas.keterangan_pengaduan_pemohon}
                             </p>
-                            <p className="mt-2 text-base text-gray-600">
-                                {data.penanganan.length > 0 && 
-                                    data.penanganan.map((data, i) => (
+                            <h3 className="mt-2">Yang menangani :</h3>
+                            <p className="pl-3 text-base text-gray-600">
+                                {datas.penanganan.length > 0 &&
+                                    datas.penanganan.map((data, i) => (
                                         <React.Fragment key={i}>
                                             <span>{data.seksi.nama_seksi}</span>
-                                            {i !==
-                                                data.penanganan.length - 1 && (
-                                                <span>,</span>
+                                            {datas.penanganan.length - 1 !==
+                                                i && (
+                                                <span>
+                                                    ,<br />
+                                                </span>
                                             )}
                                         </React.Fragment>
                                     ))}
+                            </p>
+                            <p className="mt-2 capitalize">
+                                no hak :{datas.no_hak}
+                            </p>
+                            <p className="mt-2 capitalize">
+                                jenis pengaduan :
+                                {datas.jenis_pengaduan.jenis_pengaduan}
+                            </p>
+                            <p className="mt-2 capitalize">
+                                jenis media pengaduan :
+                                {
+                                    datas.jenis_media_pengaduan
+                                        .nama_media_pengaduan
+                                }
+                            </p>
+                            <p className="mt-2 capitalize">
+                                kecamatan :{datas.kecamatan.nama_kecamatan}
+                            </p>
+                            <p className="mt-2 capitalize">
+                                desa :{datas.desa.nama_desa}
                             </p>
                         </div>
                     </div>
