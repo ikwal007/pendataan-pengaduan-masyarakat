@@ -5,7 +5,6 @@ const AdminDashboardShowDetail = ({ datas }) => {
     const goBack = () => {
         window.history.back();
     };
-    console.log(datas);
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
             <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">

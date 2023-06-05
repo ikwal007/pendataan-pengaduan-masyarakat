@@ -63,4 +63,17 @@ class Pemohon extends Model
         return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan'])
                     ->find($id);
     }
+
+    public function search($keyword)
+    {
+        try {
+            return $this->where(function ($query) use ($keyword) {
+                $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
+                    ->orWhere('nik', 'LIKE', "%{$keyword}%");
+            })
+            ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan']);
+        } catch (\Exception $e) {
+            throw new \Exception('Error in search method: '.$e->getMessage());
+        }
+    }
 }
