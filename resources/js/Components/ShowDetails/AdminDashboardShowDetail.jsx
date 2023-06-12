@@ -2,10 +2,15 @@ import React from "react";
 import { AiFillCaretLeft } from "react-icons/ai";
 
 const AdminDashboardShowDetail = ({ datas }) => {
+    const status = datas.status.status;
+
+    const isStepSuccess = (status, successStatus) => {
+        return successStatus.includes(status) ? "step-success" : null;
+    };
+
     const goBack = () => {
         window.history.back();
     };
-    console.log("ini punya data: ", datas);
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
             <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
@@ -98,29 +103,26 @@ const AdminDashboardShowDetail = ({ datas }) => {
                             <p className="mt-2 capitalize">Peroses :</p>
                             <ul className="steps steps-vertical ml-20 capitalize">
                                 <li
-                                    className={`step ${
-                                        datas.status.status == "pending"
-                                            ? "step-success"
-                                            : null
-                                    }`}
+                                    className={`step ${isStepSuccess(status, [
+                                        "pending",
+                                        "prosesing",
+                                        "finis",
+                                    ])}`}
                                 >
                                     dalam antrian pengaduan
                                 </li>
                                 <li
-                                    className={`step ${
-                                        datas.status.status == "prosesing"
-                                            ? "step-success"
-                                            : null
-                                    }`}
+                                    className={`step ${isStepSuccess(status, [
+                                        "prosesing",
+                                        "finis",
+                                    ])}`}
                                 >
                                     sedang diproses
                                 </li>
                                 <li
-                                    className={`step ${
-                                        datas.status.status == "finis"
-                                            ? "step-success"
-                                            : null
-                                    }`}
+                                    className={`step ${isStepSuccess(status, [
+                                        "finis",
+                                    ])}`}
                                 >
                                     Selesai
                                 </li>

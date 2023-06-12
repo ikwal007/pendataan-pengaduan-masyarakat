@@ -4,7 +4,6 @@ import LogedLayouts from '@/Layouts/loged-layouts';
 import React from 'react';
 
 const Show = (props) => {
-    console.log('ini show:', props);
     return (
         <LogedLayouts props={props}>
             <Seo title={`Dashboard Admin`} />

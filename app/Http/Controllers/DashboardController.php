@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelHasRole;
 use App\Models\Pemohon as P;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -14,17 +17,19 @@ class DashboardController extends Controller
    */
   public function index()
   {
-    $user = Auth()->user();
-
-    $getUserLevel = DB::table('model_has_roles')->where('model_id', $user->id)->first();
+    $auth = Auth()->user();
 
     $p = new P();
-    $getAllPemohons = $p->getAllPemohonans(10);
+    $getAllPemohons = $p->getAllPemohonans(5);
     $countAllPemohons = $p->getCountAllPemohons();
-    // $getOptionStatus = $p->getStatusOptions();
-    // dd($getOptionStatus);
+    
+    $user = new User();
+    $userLevel = $user->cekRole($auth->id);
 
-    if ($getUserLevel->role_id === 1) {
+    $role = new Role();
+    $isSuperAdmin = $role->isSuperAdmin();
+
+    if ($userLevel === $isSuperAdmin) {
       return Inertia::render('Admin/Dashboard', compact(['getAllPemohons', 'countAllPemohons']));
     } else {
       return Inertia::render('Dashboard');

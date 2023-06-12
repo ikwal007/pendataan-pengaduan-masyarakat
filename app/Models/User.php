@@ -44,4 +44,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function modelHasRole()
+    {
+        return $this->hasOne(ModelHasRole::class, 'model_id');
+    }
+
+    public function cekRole($id)
+    {
+        $findUser = $this->find($id);
+        return $findUser->modelHasRole()->first()->role->id;
+    }
 }
