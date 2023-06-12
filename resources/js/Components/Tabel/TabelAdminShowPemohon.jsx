@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
 
-const TabelAdminShowPemohon = ({ allPemohonans, results }) => {
+const TabelAdminShowPemohon = ({ allPemohons, results }) => {
     const renderPemohon = (data, index) => {
         return (
             <tr className="hover" key={index}>
@@ -33,7 +33,7 @@ const TabelAdminShowPemohon = ({ allPemohonans, results }) => {
             <tbody>
                 {results.length > 0
                     ? results.map((data, index) => renderPemohon(data, index))
-                    : allPemohonans.map((data, index) =>
+                    : allPemohons.map((data, index) =>
                           renderPemohon(data, index)
                       )}
             </tbody>

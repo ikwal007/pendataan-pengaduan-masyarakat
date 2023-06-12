@@ -18,14 +18,14 @@ class DashboardController extends Controller
 
     $getUserLevel = DB::table('model_has_roles')->where('model_id', $user->id)->first();
 
-    $pemohon = new P();
-
-    $getAllPemohonans = $pemohon->getAllPemohonans(10);
+    $p = new P();
+    $getAllPemohons = $p->getAllPemohonans(10);
+    $countAllPemohons = $p->getCountAllPemohons();
+    // $getOptionStatus = $p->getStatusOptions();
+    // dd($getOptionStatus);
 
     if ($getUserLevel->role_id === 1) {
-      return Inertia::render('Admin/Dashboard', [
-        'allPemohonans' => $getAllPemohonans,
-      ]);
+      return Inertia::render('Admin/Dashboard', compact(['getAllPemohons', 'countAllPemohons']));
     } else {
       return Inertia::render('Dashboard');
     }

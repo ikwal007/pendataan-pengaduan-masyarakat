@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('keterangan_pengaduan_pemohon');
             $table->foreignUlid('kecamatan_id')->nullable();
             $table->foreignUlid('desa_id')->nullable();
+            $table->foreignUlid('status_id');
             $table->timestamps();
         });
     }

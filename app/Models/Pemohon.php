@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Pemohon extends Model
 {
@@ -53,15 +54,20 @@ class Pemohon extends Model
         return $this->belongsTo(Desa::class);
     }
 
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
     public function getAllPemohonans($perPage = 10)
     {
         return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa'])
-                    ->paginate($perPage);
+            ->paginate($perPage);
     }
     public function getShowDetails($id)
     {
-        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan'])
-                    ->find($id);
+        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])
+            ->find($id);
     }
 
     public function search($keyword)
@@ -71,9 +77,19 @@ class Pemohon extends Model
                 $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
                     ->orWhere('nik', 'LIKE', "%{$keyword}%");
             })
-            ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan']);
+                ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan']);
         } catch (\Exception $e) {
-            throw new \Exception('Error in search method: '.$e->getMessage());
+            throw new \Exception('Error in search method: ' . $e->getMessage());
         }
     }
+
+    public function getCountAllPemohons()
+    {
+        return $this->count();
+    }
+
+    
+
+    
+
 }

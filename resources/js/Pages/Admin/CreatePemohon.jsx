@@ -78,7 +78,7 @@ const Page = (props) => {
     }
 
     return (
-        <LogedLayouts>
+        <LogedLayouts props={props}>
             <Head>
                 <title>Input Pemohon</title>
                 <meta
@@ -317,7 +317,7 @@ const Page = (props) => {
                         </div>
                     ) : null}
                     <div className="w-full">
-                        <button className="mt-3 btn btn-info text-base-100">
+                        <button className="mt-3 btn btn-success text-base-100">
                             Upload
                         </button>
                     </div>

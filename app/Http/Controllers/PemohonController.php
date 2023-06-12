@@ -6,9 +6,10 @@ use App\Models\JenisMediaPengaduan;
 use App\Models\JenisPengaduan;
 use App\Models\JenisSertifikat;
 use App\Models\Kecamatan;
-use App\Models\Pemohon;
+use App\Models\Pemohon as P;
 use App\Models\Penanganan;
 use App\Models\Seksi;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -24,6 +25,10 @@ class PemohonController extends Controller
     $jenisMediaPengaduan = JenisMediaPengaduan::all();
     $jenisSertifikat = JenisSertifikat::all();
     $semuaJenisPengaduan = JenisPengaduan::all();
+
+    $p = new P();
+    $countAllPemohons = $p->getCountAllPemohons();
+
     $pengecualianJenisPengaduan = JenisPengaduan::where('jenis_pengaduan', 'pelanggaran disiplin Pegawai Negeri Sipil')->first();
     $seksi = Seksi::all();
     $jenisPengaduan = (object) [
@@ -38,13 +43,11 @@ class PemohonController extends Controller
       $kecamatan[] = $data;
     }
 
-    return Inertia::render('Admin/Page', [
-      'kecamatan' => $kecamatan,
-      'jenisPengaduan' => $jenisPengaduan,
-      'jenisMediaPengaduan' => $jenisMediaPengaduan,
-      'jenisSertifikat' => $jenisSertifikat,
-      'seksi' => $seksi
-    ]);
+    return Inertia::render(
+      'Admin/CreatePemohon',
+      compact(['kecamatan', 'jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'seksi', 'countAllPemohons'])
+
+    );
   }
 
   /**
@@ -60,7 +63,8 @@ class PemohonController extends Controller
    */
   public function store(Request $request)
   {
-    $pemohon = new Pemohon;
+    $status = new Status();
+    $pemohon = new P;
     $pemohon->id = (string) Str::ulid();
     $pemohon->jenis_pengaduan_id = $request->jenis_pengaduan;
     $pemohon->jenis_media_pengaduan_id = $request->jenis_media_pengaduan;
@@ -71,6 +75,7 @@ class PemohonController extends Controller
     $pemohon->keterangan_pengaduan_pemohon = $request->keterangan_laporan_pengaduan;
     $pemohon->kecamatan_id = $request->kecamatan;
     $pemohon->desa_id = $request->desa;
+    $pemohon->status_id = $status->getIdStatusDefault();
     $pemohon->save();
 
     $seksiData = [
@@ -97,7 +102,7 @@ class PemohonController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(Pemohon $pemohon)
+  public function show(P $pemohon)
   {
     //
   }
@@ -105,7 +110,7 @@ class PemohonController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(Pemohon $pemohon)
+  public function edit(P $pemohon)
   {
     //
   }
@@ -113,7 +118,7 @@ class PemohonController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, Pemohon $pemohon)
+  public function update(Request $request, P $pemohon)
   {
     //
   }
@@ -121,7 +126,7 @@ class PemohonController extends Controller
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(Pemohon $pemohon)
+  public function destroy(P $pemohon)
   {
     //
   }
