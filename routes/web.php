@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Masyarakat\DashboardController as MasyarakatDashboardController;
 use App\Http\Controllers\PemohonController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Seksi\DashboardController as SeksiDashboardController;
+use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +30,33 @@ Route::get('/', function () {
     ]);
 });
 
+Route::middleware(['auth'])->group(function () {
+    // for super_admin
+    Route::prefix('super-admin')->group(function () {
+        Route::controller(SuperAdminDashboardController::class)->group(function () {
+            Route::get('/dashboard', 'index')->name('super-admin.index');
+            Route::get('/show-detail/{id}', 'show')->name('super-admin.show');
+            Route::get('/edit-user/{id}/edit', 'edit')->name('super-admin.edit');
+        });
+    });
+
+    // for seksi
+    Route::prefix('seksi')->group(function () {
+        Route::controller(SeksiDashboardController::class)->group(function () {
+            Route::get('/dashboard', 'index')->name('super-admin.index');
+            Route::get('/show-detail/{id}', 'show')->name('super-admin.show');
+        });
+    });
+
+    // for masyarakat
+    Route::prefix('seksi')->group(function () {
+        Route::controller(MasyarakatDashboardController::class)->group(function () {
+            Route::get('/dashboard', 'index')->name('super-admin.index');
+            Route::get('/show-detail/{id}', 'show')->name('super-admin.show');
+        });
+    });
+});
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard/{id}', [DashboardController::class, 'show']);
 
@@ -41,4 +70,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

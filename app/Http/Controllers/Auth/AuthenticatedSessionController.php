@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Role;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,11 +32,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $user = new User();
 
+        $role = new Role();
+        $isSuperAdmin = $role->isSuperAdmin();
+
+        $request->authenticate();
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $auth = auth()->user();
+
+        if ($user->cekRole($auth->id) === $isSuperAdmin) {
+            return redirect()->intended('/super-admin/dashboard');
+        } else {
+            // Redirect ke halaman yang sesuai untuk pengguna non-super admin
+            return redirect()->intended('/');
+        }
     }
 
     /**

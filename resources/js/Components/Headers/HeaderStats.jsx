@@ -11,33 +11,33 @@ export default function HeaderStats({ props }) {
                     <div className="flex flex-wrap">
                         <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                             <CardStats
-                                statSubtitle="pengaduan"
-                                statTitle={props.countAllPemohons}
-                                statIconName="TbReport"
+                                statSubtitle={!props.dataForStats.pengaduan ? 'all user' : 'pengaduan'}
+                                statTitle={props.dataForStats.pengaduan || props.dataForStats.allUser}
+                                statIconName={!props.dataForStats.pengaduan ? 'FaUserFriends' : "TbReport"}
                                 statIconColor="bg-red-500"
                             />
                         </div>
                         <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                             <CardStats
-                                statSubtitle="pending"
-                                statTitle={props.countAllPemohons}
-                                statIconName="TbCalendarTime"
+                                statSubtitle={!props.dataForStats.pending ? 'super admin' : 'pending'}
+                                statTitle={props.dataForStats.pending || props.dataForStats.superAdmin}
+                                statIconName={!props.dataForStats.pending ? 'FaUserCog' : "TbCalendarTime"}
                                 statIconColor="bg-orange-500"
                             />
                         </div>
                         <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                             <CardStats
-                                statSubtitle="prosesing"
-                                statTitle={props.countAllPemohons}
-                                statIconName="TbChartArcs3"
+                                statSubtitle={!props.dataForStats.prosesing ? 'seksi' : 'prosesing'}
+                                statTitle={props.dataForStats.prosesing || props.dataForStats.seksi}
+                                statIconName={!props.dataForStats.prosesing ? 'FaUserTie' : "TbChartArcs3"}
                                 statIconColor="bg-red-500"
                             />
                         </div>
                         <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                             <CardStats
-                                statSubtitle="finis"
-                                statTitle={props.countAllPemohons}
-                                statIconName="TbChecklist"
+                                statSubtitle={!props.dataForStats.finis ? 'masyarakat' : 'finis'}
+                                statTitle={props.dataForStats.finis || props.dataForStats.masyarakat}
+                                statIconName={!props.dataForStats.finis ? 'FaUsers' : "TbChecklist"}
                                 statIconColor="bg-teal-500"
                             />
                         </div>

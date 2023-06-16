@@ -1,11 +1,16 @@
 import React from "react";
 import { TbReport, TbCalendarTime, TbChartArcs3, TbChecklist } from "react-icons/tb";
+import { FaUserCog, FaUserFriends, FaUserTie, FaUsers } from "react-icons/fa";
 
 const iconComponents = {
     TbReport: TbReport,
     TbCalendarTime: TbCalendarTime,
     TbChartArcs3: TbChartArcs3,
     TbChecklist: TbChecklist,
+    FaUserCog: FaUserCog,
+    FaUserFriends: FaUserFriends,
+    FaUserTie: FaUserTie,
+    FaUsers: FaUsers
 };
 
 export default function CardStats({

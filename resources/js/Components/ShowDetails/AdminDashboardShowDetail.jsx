@@ -2,7 +2,22 @@ import React from "react";
 import { AiFillCaretLeft } from "react-icons/ai";
 
 const AdminDashboardShowDetail = ({ datas }) => {
-    const status = datas.status.status;
+    const {
+        nama_pemohon,
+        name,
+        keterangan_pengaduan_pemohon,
+        email,
+        status,
+        penanganan,
+        no_hak,
+        jenis_pengaduan,
+        jenis_media_pengaduan,
+        kecamatan,
+        desa,
+    } = datas;
+
+    const result = nama_pemohon || name || null;
+    const result2 = keterangan_pengaduan_pemohon || email || null;
 
     const isStepSuccess = (status, successStatus) => {
         return successStatus.includes(status) ? "step-success" : null;
@@ -11,6 +26,7 @@ const AdminDashboardShowDetail = ({ datas }) => {
     const goBack = () => {
         window.history.back();
     };
+
     return (
         <section className="py-10 bg-gray-50 sm:py-16 lg:py-24">
             <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
@@ -31,102 +47,94 @@ const AdminDashboardShowDetail = ({ datas }) => {
                     <div className="flex flex-col justify-between md:py-5">
                         <blockquote>
                             <h3 className="text-xl font-semibold">
-                                Nama Pemohon:{" "}
+                                {!name ? "Nama Pemohon" : "Nama"}:{" "}
                                 <span className="text-2xl pl-3 leading-relaxed text-black uppercase">
-                                    {datas.nama_pemohon
-                                        ? datas.nama_pemohon
-                                        : null}
+                                    {result}
                                 </span>
                             </h3>
                         </blockquote>
 
                         <div className="mt-6 lg:mt-auto">
                             <h3 className="mt-2">
-                                {" "}
-                                isi pengaduan :{" "}
+                                {!email ? "Isi Pengaduan" : "Email"} :{" "}
                                 <span className="pl-3 text-base capitalize">
-                                    {datas.keterangan_pengaduan_pemohon
-                                        ? datas.keterangan_pengaduan_pemohon
-                                        : null}
+                                    {result2}
                                 </span>
                             </h3>
 
-                            {datas.penanganan.length > 0 ? (
+                            {penanganan && penanganan.length > 0 && (
                                 <h3 className="mt-2">
                                     Yang menangani :{" "}
                                     <span className="pl-3 text-base text-gray-600">
-                                        {datas.penanganan.length > 0 &&
-                                            datas.penanganan.map((data, i) => (
-                                                <React.Fragment key={i}>
-                                                    <span>
-                                                        {data.seksi.nama_seksi}
-                                                    </span>
-                                                    {datas.penanganan.length -
-                                                        1 !==
-                                                        i && (
-                                                        <span>
-                                                            ,<br />
-                                                        </span>
-                                                    )}
-                                                </React.Fragment>
-                                            ))}
+                                        {penanganan.map((data, i) => (
+                                            <React.Fragment key={i}>
+                                                <span>
+                                                    {data.seksi.nama_seksi}
+                                                </span>
+                                                {penanganan.length - 1 !==
+                                                    i && <br />}
+                                            </React.Fragment>
+                                        ))}
                                     </span>
                                 </h3>
-                            ) : null}
+                            )}
 
-                            {datas.no_hak ? (
+                            {no_hak && (
                                 <p className="mt-2 capitalize">
-                                    no hak : {datas.no_hak}
+                                    no hak: {no_hak}
                                 </p>
-                            ) : null}
-                            <p className="mt-2 capitalize">
-                                jenis pengaduan :{" "}
-                                {datas.jenis_pengaduan.jenis_pengaduan}
-                            </p>
-                            <p className="mt-2 capitalize">
-                                jenis media pengaduan :{" "}
-                                {
-                                    datas.jenis_media_pengaduan
-                                        .nama_media_pengaduan
-                                }
-                            </p>
-                            {datas.kecamatan_id ? (
+                            )}
+                            {jenis_pengaduan && (
                                 <p className="mt-2 capitalize">
-                                    kecamatan : {datas.kecamatan.nama_kecamatan}
+                                    jenis pengaduan:{" "}
+                                    {jenis_pengaduan.jenis_pengaduan}
                                 </p>
-                            ) : null}
-                            {datas.desa_id ? (
+                            )}
+                            {jenis_media_pengaduan && (
                                 <p className="mt-2 capitalize">
-                                    desa : {datas.desa.nama_desa}
+                                    jenis media pengaduan:{" "}
+                                    {jenis_media_pengaduan.nama_media_pengaduan}
                                 </p>
-                            ) : null}
-                            <p className="mt-2 capitalize">Peroses :</p>
-                            <ul className="steps steps-vertical ml-20 capitalize">
-                                <li
-                                    className={`step ${isStepSuccess(status, [
-                                        "pending",
-                                        "prosesing",
-                                        "finis",
-                                    ])}`}
-                                >
-                                    dalam antrian pengaduan
-                                </li>
-                                <li
-                                    className={`step ${isStepSuccess(status, [
-                                        "prosesing",
-                                        "finis",
-                                    ])}`}
-                                >
-                                    sedang diproses
-                                </li>
-                                <li
-                                    className={`step ${isStepSuccess(status, [
-                                        "finis",
-                                    ])}`}
-                                >
-                                    Selesai
-                                </li>
-                            </ul>
+                            )}
+                            {kecamatan && (
+                                <p className="mt-2 capitalize">
+                                    kecamatan: {kecamatan.nama_kecamatan}
+                                </p>
+                            )}
+                            {desa && (
+                                <p className="mt-2 capitalize">
+                                    desa: {desa.nama_desa}
+                                </p>
+                            )}
+                            {status && (<p className="mt-2 capitalize">Proses :</p>)}
+                            {status && (
+                                <ul className="steps steps-vertical ml-20 capitalize">
+                                    <li
+                                        className={`step ${isStepSuccess(
+                                            status,
+                                            ["pending", "prosesing", "finis"]
+                                        )}`}
+                                    >
+                                        dalam antrian pengaduan
+                                    </li>
+                                    <li
+                                        className={`step ${isStepSuccess(
+                                            status,
+                                            ["prosesing", "finis"]
+                                        )}`}
+                                    >
+                                        sedang diproses
+                                    </li>
+                                    <li
+                                        className={`step ${isStepSuccess(
+                                            status,
+                                            ["finis"]
+                                        )}`}
+                                    >
+                                        Selesai
+                                    </li>
+                                </ul>
+                            )}
                         </div>
                     </div>
                 </div>

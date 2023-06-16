@@ -85,7 +85,19 @@ class Pemohon extends Model
 
     public function getCountAllPemohons()
     {
-        return $this->count();
+        $dataCount = (object) array(
+            'pengaduan' => 0,
+            'pending' => 0,
+            'prosesing' => 0,
+            'finis' => 0
+        );
+
+        $dataCount->pengaduan = $this->count();
+        $dataCount->pending = $this->whereHas('status', function ($query) {
+            $query->where('status', 'pending');
+        })->count();
+
+        return $dataCount;
     }
 
     

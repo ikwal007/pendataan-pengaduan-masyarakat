@@ -25,7 +25,7 @@ class Role extends Model
 
     public function modelHasRoles()
     {
-        return $this->hasMany(ModelHasRole::class);
+        return $this->hasMany(ModelHasRole::class, 'role_id');
     }
 
     public function isSuperAdmin()

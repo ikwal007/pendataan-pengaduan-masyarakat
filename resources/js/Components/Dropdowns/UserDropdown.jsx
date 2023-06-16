@@ -1,12 +1,13 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
+import model1 from "../../public/assets/imgs/model1.jpg"
 const UserDropdown = () => {
   return (
     <>
       <div className="dropdown dropdown-end">
         <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
           <div className="w-10 rounded-full">
-            <img src="../assets/imgs/model1.jpg" />
+            <img src={model1} />
           </div>
         </label>
         <ul
