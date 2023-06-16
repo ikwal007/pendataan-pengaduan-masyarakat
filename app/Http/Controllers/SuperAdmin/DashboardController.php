@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pemohon;
+use App\Http\Requests\SuperAdmin\EditPasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -67,9 +67,19 @@ class DashboardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EditPasswordRequest $request, string $id)
     {
-        //
+        if (Auth()->user()->roles->first()->name !== 'Super_Admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $user = User::find($id);
+
+        $user->password = $request->new_password;
+
+        $user->save();
+
+        return redirect('/super-admin/dashboard')->with('message', 'Edit Data Success');
     }
 
     /**

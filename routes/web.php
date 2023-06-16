@@ -36,7 +36,8 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(SuperAdminDashboardController::class)->group(function () {
             Route::get('/dashboard', 'index')->name('super-admin.index');
             Route::get('/show-detail/{id}', 'show')->name('super-admin.show');
-            Route::get('/edit-user/{id}/edit', 'edit')->name('super-admin.edit');
+            Route::get('/edit-user/{id}', 'edit')->name('super-admin.edit');
+            Route::patch('/update-password/{id}', 'update')->name('super-admin.update');
         });
     });
 

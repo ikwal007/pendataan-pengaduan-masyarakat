@@ -15,22 +15,20 @@ const TabelAdminShowPemohon = ({ dataForTable, results }) => {
                 <td className="space-x-3">
                     {!data.nik ? (
                         <Link
-                            href={`/super-admin/edit-user/${data.id}/edit`}
+                            href={`/super-admin/edit-user/${data.id}`}
                             className="badge text-white badge-warning gap-2"
                         >
                             Ubah Password
                         </Link>
                     ) : null}
-                    <Link
-                        href={
-                            !data.nama_pemohon
-                                ? `/super-admin/show-detail/${data.id}`
-                                : `/seksi/show-detail/${data.id}`
-                        }
-                        className="badge text-white badge-success gap-2"
-                    >
-                        Lihat Info Lebih
-                    </Link>
+                    {data.nik ? (
+                        <Link
+                            href={`/seksi/show-detail/${data.id}`}
+                            className="badge text-white badge-warning gap-2"
+                        >
+                            Lihat Info Lebih
+                        </Link>
+                    ) : null}
                 </td>
             </tr>
         );

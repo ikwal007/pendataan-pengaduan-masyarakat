@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
-import model1 from "../../public/assets/imgs/model1.jpg"
+import model1 from "/public/assets/imgs/model1.jpg"
 const UserDropdown = () => {
   return (
     <>
