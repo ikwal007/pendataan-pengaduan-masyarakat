@@ -5,7 +5,7 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SuperAdmin\EditPasswordRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 // use ;
@@ -22,22 +22,6 @@ class DashboardController extends Controller
         $dataForTable = $users->getAllUserData();
 
         return Inertia::render('SuperAdmin/Dashboard', compact(['dataForTable', 'dataForStats']));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store($id)
-    {
-        // 
     }
 
     /**
@@ -75,18 +59,10 @@ class DashboardController extends Controller
 
         $user = User::find($id);
 
-        $user->password = $request->new_password;
+        $user->password = Hash::make($request->new_password);
 
         $user->save();
 
         return redirect('/super-admin/dashboard')->with('message', 'Edit Data Success');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

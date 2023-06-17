@@ -1,7 +1,8 @@
 import Seo from "@/Components/Seo/Seo";
 import LogedLayouts from "@/Layouts/loged-layouts";
-import React, { useDeferredValue } from "react";
-import { useForm } from "@inertiajs/react";
+import React from "react";
+import { Link, useForm } from "@inertiajs/react";
+import { AiFillCaretLeft } from "react-icons/ai";
 
 const EditPassword = (props) => {
     const { data, setData, patch, processing, errors, setError, reset } =
@@ -36,11 +37,17 @@ const EditPassword = (props) => {
     };
 
     return (
-        <LogedLayouts props={props}>
-            <Seo title={`EditPassword Admin`} />
+        <LogedLayouts title={`Edit Password Super Admin`}>
+            <Seo title={`Edit Password Super Admin`} />
             <section className="relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full">
                 <div className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between">
                     <div className="overflow-x-auto w-full bg-white p-3 rounded-xl">
+                        <Link
+                            href={route("super-admin.index")}
+                            className="flex items-center mb-8"
+                        >
+                            <AiFillCaretLeft /> Kembali
+                        </Link>
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">
                                 Update Password

@@ -7,8 +7,8 @@ import React, { useState } from "react";
 const Index = (props) => {
     const [results, setResults] = useState([]);
     return (
-        <LogedLayouts props={props}>
-            <Seo title={`Dashboard Admin`} />
+        <LogedLayouts title={`Dashboard Seksi`} >
+            <Seo title={`Dashboard Seksi`} />
             <section className="relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full">
                 <div className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between">
                     <div className="overflow-x-auto w-full bg-white p-3 rounded-xl">

@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Role;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,21 +30,24 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $user = new User();
-
         $role = new Role();
         $isSuperAdmin = $role->isSuperAdmin();
+        $isSeksi = $role->isSeksi();
+        $isMasyarakat = $role->isMasyarakat();
 
         $request->authenticate();
         $request->session()->regenerate();
 
         $auth = auth()->user();
 
-        if ($user->cekRole($auth->id) === $isSuperAdmin) {
+        if ($auth->roles->first()->id === $isSuperAdmin) {
             return redirect()->intended('/super-admin/dashboard');
-        } else {
-            // Redirect ke halaman yang sesuai untuk pengguna non-super admin
-            return redirect()->intended('/');
+        }
+        if ($auth->roles->first()->id === $isSeksi) {
+            return redirect()->intended('/seksi/dashboard');
+        } 
+        if ($auth->roles->first()->id === $isMasyarakat) {
+            return redirect()->intended('/masyarakat/dashboard');
         }
     }
 

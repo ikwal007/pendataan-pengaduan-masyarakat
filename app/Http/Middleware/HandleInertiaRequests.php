@@ -32,7 +32,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => $this->transformUser($request->user()),
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
@@ -43,5 +43,28 @@ class HandleInertiaRequests extends Middleware
                 'message' => fn () => $request->session()->get('message')
             ],
         ]);
+    }
+
+    /**
+     * Transformasi objek user dan tambahkan properti tambahan.
+     *
+     * @param \Illuminate\Contracts\Auth\Authenticatable|null $user
+     * @return array|null
+     */
+    protected function transformUser($user): ?array
+    {
+        if (!$user) {
+            return null;
+        }
+
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->roles->first()->name,
+            'created_at' => $user->created_at,
+            'email_verified_at' => $user->email_verified_at,
+            'updated_at' => $user->updated_at,
+        ];
     }
 }

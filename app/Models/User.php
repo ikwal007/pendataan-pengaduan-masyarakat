@@ -54,18 +54,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the role ID of the user.
-     *
-     * @param  int  $id
-     * @return int|null
-     */
-    public function cekRole($id)
-    {
-        $findUser = $this->find($id);
-        return $findUser->modelHasRole()->first()->role->id;
-    }
-
-    /**
      * Get the count of users based on role.
      *
      * @return object

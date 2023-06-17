@@ -32,28 +32,30 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     // for super_admin
-    Route::prefix('super-admin')->group(function () {
-        Route::controller(SuperAdminDashboardController::class)->group(function () {
-            Route::get('/dashboard', 'index')->name('super-admin.index');
-            Route::get('/show-detail/{id}', 'show')->name('super-admin.show');
-            Route::get('/edit-user/{id}', 'edit')->name('super-admin.edit');
-            Route::patch('/update-password/{id}', 'update')->name('super-admin.update');
+    Route::middleware(['role:Super_Admin'])->group(function () {
+        Route::prefix('super-admin')->group(function () {
+            Route::controller(SuperAdminDashboardController::class)->group(function () {
+                Route::get('/dashboard', 'index')->name('super-admin.index');
+                Route::get('/edit-user/{id}', 'edit')->name('super-admin.edit');
+                Route::patch('/update-password/{id}', 'update')->name('super-admin.update');
+            });
         });
     });
+    
 
     // for seksi
     Route::prefix('seksi')->group(function () {
         Route::controller(SeksiDashboardController::class)->group(function () {
-            Route::get('/dashboard', 'index')->name('super-admin.index');
-            Route::get('/show-detail/{id}', 'show')->name('super-admin.show');
+            Route::get('/dashboard', 'index')->name('seksi.index');
+            Route::get('/show-detail/{id}', 'show')->name('seksi.show');
         });
     });
 
     // for masyarakat
-    Route::prefix('seksi')->group(function () {
+    Route::prefix('masyarakat')->group(function () {
         Route::controller(MasyarakatDashboardController::class)->group(function () {
-            Route::get('/dashboard', 'index')->name('super-admin.index');
-            Route::get('/show-detail/{id}', 'show')->name('super-admin.show');
+            Route::get('/dashboard', 'index')->name('masyarakat.index');
+            Route::get('/show-detail/{id}', 'show')->name('masyarakat.show');
         });
     });
 });

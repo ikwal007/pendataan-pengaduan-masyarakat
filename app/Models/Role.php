@@ -32,4 +32,14 @@ class Role extends Model
     {
         return $this->where('name', 'Super_Admin')->first()->id;
     }
+
+    public function isSeksi()
+    {
+        return $this->where('name', 'Seksi')->first()->id;
+    }
+
+    public function isMasyarakat()
+    {
+        return $this->where('name', 'Masyarakat')->first()->id;
+    }
 }
