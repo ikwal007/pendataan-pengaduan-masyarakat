@@ -34,6 +34,7 @@ class AuthenticatedSessionController extends Controller
         $isSuperAdmin = $role->isSuperAdmin();
         $isSeksi = $role->isSeksi();
         $isMasyarakat = $role->isMasyarakat();
+        $isPelayanan = $role->isPelayanan();
 
         $request->authenticate();
         $request->session()->regenerate();
@@ -43,6 +44,9 @@ class AuthenticatedSessionController extends Controller
         if ($auth->roles->first()->id === $isSuperAdmin) {
             return redirect()->intended('/super-admin/dashboard');
         }
+        if ($auth->roles->first()->id === $isPelayanan) {
+            return redirect()->intended('/pelayanan-publik/dashboard');
+        } 
         if ($auth->roles->first()->id === $isSeksi) {
             return redirect()->intended('/seksi/dashboard');
         } 

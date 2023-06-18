@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Masyarakat\DashboardController as MasyarakatDashboardController;
+use App\Http\Controllers\Pelayanan\DashboardController as PelayananDashboardController;
 use App\Http\Controllers\PemohonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seksi\DashboardController as SeksiDashboardController;
@@ -41,21 +42,36 @@ Route::middleware(['auth'])->group(function () {
             });
         });
     });
-    
 
     // for seksi
-    Route::prefix('seksi')->group(function () {
-        Route::controller(SeksiDashboardController::class)->group(function () {
-            Route::get('/dashboard', 'index')->name('seksi.index');
-            Route::get('/show-detail/{id}', 'show')->name('seksi.show');
+    Route::middleware(['role:Pelayanan_Publik'])->group(function () {
+        Route::prefix('pelayanan-publik')->group(function () {
+            Route::controller(PelayananDashboardController::class)->group(function () {
+                Route::get('/dashboard', 'index')->name('pelayanan-publik.index');
+                Route::get('/show-detail/{id}', 'show')->name('pelayanan-publik.show');
+                Route::get('/create-permohonan', 'create')->name('pelayanan-publik.create');
+                Route::post('/create-permohonan', 'store')->name('pelayanan-publik.store');
+            });
+        });
+    });
+
+    // for seksi
+    Route::middleware(['role:Seksi'])->group(function () {
+        Route::prefix('seksi')->group(function () {
+            Route::controller(SeksiDashboardController::class)->group(function () {
+                Route::get('/dashboard', 'index')->name('seksi.index');
+                Route::get('/show-detail/{id}', 'show')->name('seksi.show');
+            });
         });
     });
 
     // for masyarakat
-    Route::prefix('masyarakat')->group(function () {
-        Route::controller(MasyarakatDashboardController::class)->group(function () {
-            Route::get('/dashboard', 'index')->name('masyarakat.index');
-            Route::get('/show-detail/{id}', 'show')->name('masyarakat.show');
+    Route::middleware(['role:Masyarakat'])->group(function () {
+        Route::prefix('masyarakat')->group(function () {
+            Route::controller(MasyarakatDashboardController::class)->group(function () {
+                Route::get('/dashboard', 'index')->name('masyarakat.index');
+                Route::get('/show-detail/{id}', 'show')->name('masyarakat.show');
+            });
         });
     });
 });

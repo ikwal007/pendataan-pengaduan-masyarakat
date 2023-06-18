@@ -1,9 +1,8 @@
 import React from "react";
-import { MdClose, MdDashboard } from "react-icons/md";
+import { MdClose, MdDashboard, MdOutlinePostAdd } from "react-icons/md";
 import { Link, usePage } from "@inertiajs/react";
 
 import UserDropdown from "../Dropdowns/UserDropdown";
-import NotificationDropdown from "../Dropdowns/NotificationDropdown";
 
 export default function Sidebar() {
     const [collapseShow, setCollapseShow] = React.useState("hidden");
@@ -83,7 +82,7 @@ export default function Sidebar() {
                                 {/* Navigation */}
                                 <ul className="md:flex-col md:min-w-full flex flex-col list-none">
                                     <li className="items-center">
-                                        <Link href="/dashboard">
+                                        <Link href={route('super-admin.index')}>
                                             <span
                                                 className={`flex text-xs uppercase py-3 font-bold ${
                                                     route().current(
@@ -110,6 +109,64 @@ export default function Sidebar() {
                             </div>
                         )}
 
+                        {auth.user.role === "Pelayanan_Publik" && (
+                            <div>
+                                {/* Divider */}
+                                <hr className="my-4 md:min-w-full" />
+                                {/* Heading */}
+                                <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+                                    Pelayanan Publik
+                                </h6>
+                                {/* Navigation */}
+                                <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+                                    <li className="items-center">
+                                        <Link href={route('pelayanan-publik.index')}>
+                                            <span
+                                                className={`flex text-xs uppercase py-3 font-bold ${
+                                                    route().current("pelayanan-publik.index")
+                                                        ? "text-success hover:text-success hover:opacity-50"
+                                                        : "text-black hover:text-black hover:opacity-50"
+                                                }`}
+                                            >
+                                                <MdDashboard
+                                                    className={`mr-2 text-sm ${
+                                                        route().current(
+                                                            "pelayanan-publik.index"
+                                                        )
+                                                            ? "opacity-75"
+                                                            : "text-black"
+                                                    }`}
+                                                />
+                                                Dashboard
+                                            </span>
+                                        </Link>
+                                    </li>
+                                    <li className="items-center">
+                                        <Link href={route('pelayanan-publik.create')}>
+                                            <span
+                                                className={`flex text-xs uppercase py-3 font-bold ${
+                                                    route().current("pelayanan-publik.create")
+                                                        ? "text-success hover:text-success hover:opacity-50"
+                                                        : "text-black hover:text-black hover:opacity-50"
+                                                }`}
+                                            >
+                                                <MdOutlinePostAdd
+                                                    className={`mr-2 text-sm ${
+                                                        route().current(
+                                                            "pelayanan-publik.create"
+                                                        )
+                                                            ? "opacity-75"
+                                                            : "text-black"
+                                                    }`}
+                                                />
+                                                Create Permohonan
+                                            </span>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
+
                         {auth.user.role === "Seksi" && (
                             <div>
                                 {/* Divider */}
@@ -121,7 +178,7 @@ export default function Sidebar() {
                                 {/* Navigation */}
                                 <ul className="md:flex-col md:min-w-full flex flex-col list-none">
                                     <li className="items-center">
-                                        <Link href="/dashboard">
+                                        <Link href={route('seksi.index')}>
                                             <span
                                                 className={`flex text-xs uppercase py-3 font-bold ${
                                                     route().current("seksi.*")
@@ -157,7 +214,7 @@ export default function Sidebar() {
                                 {/* Navigation */}
                                 <ul className="md:flex-col md:min-w-full flex flex-col list-none">
                                     <li className="items-center">
-                                        <Link href="/dashboard">
+                                        <Link href={route('masyarakat.index')}>
                                             <span
                                                 className={`flex text-xs uppercase py-3 font-bold ${
                                                     route().current(

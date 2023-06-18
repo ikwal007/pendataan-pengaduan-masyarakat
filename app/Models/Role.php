@@ -42,4 +42,9 @@ class Role extends Model
     {
         return $this->where('name', 'Masyarakat')->first()->id;
     }
+    
+    public function isPelayanan()
+    {
+        return $this->where('name', 'Pelayanan_Publik')->first()->id;
+    }
 }

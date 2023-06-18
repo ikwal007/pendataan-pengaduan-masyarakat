@@ -64,6 +64,7 @@ class Pemohon extends Model
         return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa'])
             ->paginate($perPage);
     }
+    
     public function getShowDetails($id)
     {
         return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])
