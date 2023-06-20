@@ -25,12 +25,18 @@ class Kecamatan extends Model
      */
     protected $guarded = ['id'];
 
-    public function desa(): HasMany {
+    public function desa(): HasMany
+    {
         return $this->hasMany(Desa::class);
     }
 
     public function pemohon()
     {
         return $this->hasMany(Pemohon::class);
+    }
+
+    public function getAllKecamatanWiteDesa()
+    {
+        return $this->with('desa')->get();
     }
 }

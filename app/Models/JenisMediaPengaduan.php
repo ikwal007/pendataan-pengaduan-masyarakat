@@ -24,8 +24,23 @@ class JenisMediaPengaduan extends Model
      */
     protected $guarded = ['id'];
 
+    /**
+     * Mendefinisikan relasi "hasMany" antara model ini dengan model Pemohon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function pemohon()
     {
         return $this->hasMany(Pemohon::class);
+    }
+
+    /**
+     * Mengambil semua jenis media pengaduan.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection Kumpulan semua jenis media pengaduan.
+     */
+    public function allJenisMediaPengaduan()
+    {
+        return $this->all();
     }
 }

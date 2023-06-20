@@ -24,8 +24,29 @@ class JenisPengaduan extends Model
      */
     protected $guarded = ['id'];
 
+    /**
+     * Mendefinisikan relasi "hasMany" antara model ini dengan model Pemohon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function pemohon()
     {
         return $this->hasMany(Pemohon::class);
+    }
+
+    /**
+     * Mengambil semua jenis pengaduan dan pengecualian jenis pengaduan.
+     *
+     * @return object Jenis pengaduan dan pengecualian dalam bentuk objek.
+     */
+    public function allJenisPengaduanAndException()
+    {
+        $semuaJenisPengaduan = $this->all();
+        $pengecualianJenisPengaduan = $this->where('jenis_pengaduan', 'pelanggaran disiplin Pegawai Negeri Sipil')->first();
+        $jenisPengaduan = (object) [
+            'pengecualianJenisPengaduan' => $pengecualianJenisPengaduan,
+            'semuaJenisPengaduan' => $semuaJenisPengaduan
+        ];
+        return $jenisPengaduan;
     }
 }

@@ -24,8 +24,23 @@ class JenisSertifikat extends Model
      */
     protected $guarded = ['id'];
 
+    /**
+     * Mendefinisikan relasi "hasMany" antara model ini dengan model Pemohon.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function pemohon()
     {
         return $this->hasMany(Pemohon::class);
+    }
+
+    /**
+     * Mengambil semua jenis sertifikat.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allJenisSertifikat()
+    {
+        return $this->all();
     }
 }

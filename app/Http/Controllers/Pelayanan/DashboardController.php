@@ -31,32 +31,28 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        $jenisMediaPengaduan = JenisMediaPengaduan::all();
-        $jenisSertifikat = JenisSertifikat::all();
-        $semuaJenisPengaduan = JenisPengaduan::all();
-
         $pemohon = new Pemohon();
-        $dataForTable = $pemohon->getAllPemohonans(5);
         $dataForStats = $pemohon->getCountAllPemohons();
 
-        $pengecualianJenisPengaduan = JenisPengaduan::where('jenis_pengaduan', 'pelanggaran disiplin Pegawai Negeri Sipil')->first();
-        $seksi = Seksi::all();
-        $jenisPengaduan = (object) [
-            'pengecualianJenisPengaduan' => $pengecualianJenisPengaduan,
-            'semuaJenisPengaduan' => $semuaJenisPengaduan
-        ];
-        $kecamatan = [];
 
-        foreach (Kecamatan::all() as &$value) {
-            $data = $value;
-            $data->desa = Kecamatan::where('id', $data->id)->first()->desa;
-            $kecamatan[] = $data;
-        }
+        $jenisMediaPengaduan = new JenisMediaPengaduan();
+        $allJenisMediaPengaduan = $jenisMediaPengaduan->allJenisMediaPengaduan();
+
+        $jenisSertifikat = new JenisSertifikat();
+        $allJenisSertifikat = $jenisSertifikat->allJenisSertifikat();
+
+        $jenisPengaduan = new JenisPengaduan();
+        $allJenisPengaduanAndException = $jenisPengaduan->allJenisPengaduanAndException();
+
+        $seksi = new Seksi();
+        $allSeksi = $seksi->getSeksiAll();
+
+        $kecamatan = new Kecamatan();
+        $allKecamatan = $kecamatan->getAllKecamatanWiteDesa();
 
         return Inertia::render(
             'PelayananPublik/CreatePemohon',
-            compact(['kecamatan', 'jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'seksi', 'dataForTable', 'dataForStats'])
-
+            compact(['allKecamatan', 'allSeksi', 'allJenisPengaduanAndException', 'allJenisMediaPengaduan', 'allJenisSertifikat', 'dataForStats'])
         );
     }
 
@@ -65,7 +61,7 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
     }
 
     /**

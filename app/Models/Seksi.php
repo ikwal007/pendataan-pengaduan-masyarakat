@@ -24,8 +24,23 @@ class Seksi extends Model
      */
     protected $guarded = ['id'];
 
+    /**
+     * Mendefinisikan relasi "hasMany" antara model ini dengan model Penanganan.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany Objek relasi "hasMany" antara model ini dengan model Penanganan.
+     */
     public function penanganans()
     {
         return $this->hasMany(Penanganan::class);
+    }
+
+    /**
+     * Mengambil semua data seksi.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection Kumpulan semua data seksi.
+     */
+    public function getSeksiAll()
+    {
+        return $this->all();
     }
 }
