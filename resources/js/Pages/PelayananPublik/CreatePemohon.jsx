@@ -3,7 +3,7 @@ import LogedLayouts from '@/Layouts/loged-layouts';
 import { useForm, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-const Page = props => {
+const CreatePemohon = () => {
   const {
     allKecamatan,
     allSeksi,
@@ -68,8 +68,7 @@ const Page = props => {
   };
 
   return (
-    <LogedLayouts>
-      <Seo title={`Input Pemohon`} />
+    <>
       <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
         <form
           className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between space-y-6'
@@ -289,8 +288,15 @@ const Page = props => {
           </div>
         </form>
       </section>
-    </LogedLayouts>
+    </>
   );
 };
 
-export default Page;
+CreatePemohon.layout = page => (
+  <LogedLayouts title={`Create Pemohon`}>
+    <Seo title={`Create Pemohon`} />
+    {page}
+  </LogedLayouts>
+);
+
+export default CreatePemohon;

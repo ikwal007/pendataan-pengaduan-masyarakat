@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Pelayanan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PelayanaPublik\StorePemohonanRequest;
 use App\Models\JenisMediaPengaduan;
 use App\Models\JenisPengaduan;
 use App\Models\JenisSertifikat;
 use App\Models\Kecamatan;
 use App\Models\Pemohon;
+use App\Models\Penanganan;
 use App\Models\Seksi;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -59,9 +63,37 @@ class DashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePemohonanRequest $request)
     {
-        // dd($request);
+        $status = new Status();
+        $seksi = new Seksi();
+        $allSeksiName = $seksi->getAllNameSeksi();
+
+        $pemohon = new Pemohon();
+        $pemohon->id = (string) Str::ulid();
+        $pemohon->jenis_pengaduan_id = $request->jenis_pengaduan;
+        $pemohon->jenis_media_pengaduan_id = $request->jenis_media_pengaduan;
+        $pemohon->nama_pemohon = $request->nama_pemohon;
+        $pemohon->nik = $request->no_nik;
+        $pemohon->no_hak = $request->no_hak;
+        $pemohon->jenis_sertifikat_id = $request->jenis_sertifikat;
+        $pemohon->keterangan_pengaduan_pemohon = $request->keterangan_laporan_pengaduan;
+        $pemohon->kecamatan_id = $request->kecamatan;
+        $pemohon->desa_id = $request->desa;
+        $pemohon->status_id = $status->getIdStatusDefault();
+        $pemohon->save();        
+
+        foreach ($allSeksiName as $seksiKey => $seksiValue) {
+            if ($request->$seksiKey === true) {
+                $findIdSeksi = $seksi->findSeksi($seksiValue);
+
+                $penanganan = new Penanganan();
+                $penanganan->pemohon_id = $pemohon->id;
+                $penanganan->seksi_id = $findIdSeksi->id;
+                $penanganan->save();
+            }
+        };
+        return redirect('dashboard');
     }
 
     /**

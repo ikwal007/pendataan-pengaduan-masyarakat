@@ -7,8 +7,7 @@ import React, { useState } from 'react';
 const Dashboard = props => {
   const [results, setResults] = useState([]);
   return (
-    <LogedLayouts title={`Dashboard Pelayanan Publik`}>
-      <Seo title={`Dashboard Pelayanan Publik`} />
+    <>
       <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
         <div className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between'>
           <div className='overflow-x-auto w-full bg-white p-3 rounded-xl'>
@@ -17,8 +16,15 @@ const Dashboard = props => {
           </div>
         </div>
       </section>
-    </LogedLayouts>
+    </>
   );
 };
+
+Dashboard.layout = page => (
+  <LogedLayouts title={`Dashboard Pelayanan Publik`}>
+    <Seo title={`Dashboard Pelayanan Publik`} />
+    {page}
+  </LogedLayouts>
+);
 
 export default Dashboard;
