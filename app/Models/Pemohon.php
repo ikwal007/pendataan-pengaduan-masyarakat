@@ -26,7 +26,7 @@ class Pemohon extends Model
 
     public function penanganan()
     {
-        return $this->hasMany(Penanganan::class)->with('seksi');
+        return $this->hasMany(Penanganan::class)->with(['seksi', 'status']);
     }
 
     public function jenisPengaduan()
@@ -61,7 +61,7 @@ class Pemohon extends Model
 
     public function getAllPemohonans($perPage = 10)
     {
-        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa'])
+        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status'])
             ->paginate($perPage);
     }
     
@@ -78,7 +78,7 @@ class Pemohon extends Model
                 $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
                     ->orWhere('nik', 'LIKE', "%{$keyword}%");
             })
-                ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan']);
+                ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status']);
         } catch (\Exception $e) {
             throw new \Exception('Error in search method: ' . $e->getMessage());
         }

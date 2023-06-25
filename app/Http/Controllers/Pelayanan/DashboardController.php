@@ -81,19 +81,20 @@ class DashboardController extends Controller
         $pemohon->kecamatan_id = $request->kecamatan;
         $pemohon->desa_id = $request->desa;
         $pemohon->status_id = $status->getIdStatusDefault();
-        $pemohon->save();        
+        $pemohon->save();
 
         foreach ($allSeksiName as $seksiKey => $seksiValue) {
-            if ($request->$seksiKey === true) {
+            if ($request->$seksiValue === true) {
                 $findIdSeksi = $seksi->findSeksi($seksiValue);
 
                 $penanganan = new Penanganan();
                 $penanganan->pemohon_id = $pemohon->id;
                 $penanganan->seksi_id = $findIdSeksi->id;
+                $penanganan->status_id = $status->getIdStatusDefault();
                 $penanganan->save();
             }
         };
-        return redirect('dashboard');
+        return redirect('/pelayanan-publik/dashboard')->with('message', 'Create Data Success');
     }
 
     /**
@@ -101,30 +102,14 @@ class DashboardController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $pemohon = new Pemohon();
+        $dataForShowDetail = $pemohon->getShowDetails($id);
+        $dataForStats = $pemohon->getCountAllPemohons();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        if (is_null($dataForShowDetail)) {
+            return redirect('/pelayanan-publik/dashboard');
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return Inertia::render('PelayananPublik/ShowDetailPage', compact(['dataForShowDetail', 'dataForStats']));
     }
 }

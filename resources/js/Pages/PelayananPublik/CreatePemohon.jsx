@@ -3,7 +3,7 @@ import LogedLayouts from '@/Layouts/loged-layouts';
 import { useForm, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-const CreatePemohon = () => {
+const CreatePemohon = (props) => {
   const {
     allKecamatan,
     allSeksi,

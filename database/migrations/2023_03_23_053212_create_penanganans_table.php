@@ -15,6 +15,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->foreignUlid('pemohon_id');
             $table->foreignUlid('seksi_id');
+            $table->foreignUlid('status_id');
             $table->timestamps();
         });
     }

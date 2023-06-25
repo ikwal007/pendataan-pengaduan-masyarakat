@@ -31,4 +31,7 @@ class Penanganan extends Model
     {
         return $this->belongsTo(Seksi::class);
     }
+    public function status(){
+        return $this->belongsTo(Status::class);
+    }
 }

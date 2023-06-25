@@ -4,11 +4,11 @@ import { BiCheck } from 'react-icons/bi';
 
 import Seo from '@/Components/Seo/Seo';
 import LogedLayouts from '@/Layouts/loged-layouts';
-import { TabelAdminShowPemohon as Table } from '@/Components/Tabel/TabelAdminShowPemohon';
 import { SearchForTable as SFT } from '@/Components/Search/SearchForTable';
+import Table from '@/Components/Tabel/Tabel';
 
 const Dashboard = props => {
-  const { flash } = usePage().props;
+  const { flash, dataForTable } = usePage().props;
   const [results, setResults] = useState([]);
   const [showFlash, setShowFlash] = useState(false);
 
@@ -21,6 +21,8 @@ const Dashboard = props => {
       return () => clearTimeout(timer);
     }
   }, [flash.message]);
+
+  console.log(dataForTable);
 
   return (
     <>
@@ -37,7 +39,36 @@ const Dashboard = props => {
               data={props.dataForTable.data[0].name}
               setResults={setResults}
             />
-            <Table results={results} dataForTable={props.dataForTable.data} />
+            <Table results={results} dataForTable={dataForTable.data}>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th></Table.Th>
+                  <Table.Th>Nama</Table.Th>
+                  <Table.Th>Email</Table.Th>
+                  <Table.Th>Action</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {dataForTable.data
+                  ? dataForTable.data.map((data, i) => {
+                      return (
+                        <Table.Tr key={i}>
+                          <Table.Td>{i + 1}</Table.Td>
+                          <Table.Td>{data.name}</Table.Td>
+                          <Table.Td>{data.email}</Table.Td>
+                          <Table.Td>
+                            <Table.Link
+                              href={route(`super-admin.edit`, [data.id])}
+                            >
+                              Edit Password
+                            </Table.Link>
+                          </Table.Td>
+                        </Table.Tr>
+                      );
+                    })
+                  : null}
+              </Table.Tbody>
+            </Table>
             {results.length === 0 && (
               <div className='join grid grid-cols-2 max-w-[250px] mt-3'>
                 <Link

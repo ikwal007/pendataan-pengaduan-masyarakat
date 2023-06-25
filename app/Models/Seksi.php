@@ -52,7 +52,7 @@ class Seksi extends Model
      */
     public function findSeksi($seksiValue)
     {
-        return $this->where('nama_seksi', $seksiValue)->first();
+        return $this->where('nama_seksi', 'like', '%' . $seksiValue . '%')->first();
     }
 
     /**

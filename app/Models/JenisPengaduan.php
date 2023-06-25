@@ -49,4 +49,15 @@ class JenisPengaduan extends Model
         ];
         return $jenisPengaduan;
     }
+
+    /**
+     * Mencari data pengaduan berdasarkan jenis pengaduan.
+     *
+     * @param string $jenisPengaduan Jenis pengaduan yang ingin dicari.
+     * @return mixed|null Data pengaduan yang sesuai dengan jenis pengaduan, atau null jika tidak ditemukan.
+     */
+    public function findJenisPengaduan($jenisPengaduan)
+    {
+        return $this->where('jenis_pengaduan', $jenisPengaduan)->first();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\PelayanaPublik;
 
+use App\Models\JenisPengaduan;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePemohonanRequest extends FormRequest
@@ -21,11 +22,15 @@ class StorePemohonanRequest extends FormRequest
      */
     public function rules(): array
     {
+        $jenisPengaduan = new JenisPengaduan();
+        if ($jenisPengaduan->findJenisPengaduan('pelanggaran disiplin Pegawai Negeri Sipil')->id === 'jenis_pengaduan_id') {
+            return [];
+        }
         return [
-            'keterangan_laporan_pengaduan' => ['required',],
-            'nama_pemohon' => ['required'],
-            'no_nik' => ['required'],
-            'no_hak' => ['required'],
+            'keterangan_laporan_pengaduan' => ['',],
+            'nama_pemohon' => [''],
+            'no_nik' => ['', 'max:16'],
+            'no_hak' => [''],
         ];
     }
 }

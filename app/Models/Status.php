@@ -29,6 +29,10 @@ class Status extends Model
         return $this->hasMany(Pemohon::class);
     }
 
+    public function penanganan(){
+        return $this->hasMany(Penanganan::class);
+    }
+
     public function getIdStatusDefault()
     {
         return $this->where('status', 'pending')->first()->id;

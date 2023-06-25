@@ -1,6 +1,5 @@
 import Seo from "@/Components/Seo/Seo";
 import LogedLayouts from "@/Layouts/loged-layouts";
-import { TabelAdminShowPemohon as Table } from "@/Components/Tabel/TabelAdminShowPemohon";
 import { SearchForTable as SFT } from "@/Components/Search/SearchForTable";
 import React, { useState } from "react";
 
@@ -13,7 +12,7 @@ const Index = (props) => {
                 <div className="flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between">
                     <div className="overflow-x-auto w-full bg-white p-3 rounded-xl">
                         <SFT setResults={setResults} />
-                        <Table results={results} dataForTable={props.dataForTable.data} />
+                        {/* <Table results={results} dataForTable={props.dataForTable.data} /> */}
                     </div>
                 </div>
             </section>
