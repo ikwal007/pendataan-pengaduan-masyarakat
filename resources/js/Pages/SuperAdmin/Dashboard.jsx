@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useDeferredValue } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { BiCheck } from 'react-icons/bi';
 
@@ -11,6 +11,16 @@ const Dashboard = props => {
   const { flash, dataForTable } = usePage().props;
   const [results, setResults] = useState([]);
   const [showFlash, setShowFlash] = useState(false);
+  const [keyword, setKeyword] = useState('');
+  const deferredSearch = useDeferredValue(keyword);
+
+  useEffect(() => {
+    if (deferredSearch !== '') {
+      search();
+    } else {
+      setResults([]);
+    }
+  }, [deferredSearch]);
 
   useEffect(() => {
     if (flash.message) {
@@ -22,7 +32,19 @@ const Dashboard = props => {
     }
   }, [flash.message]);
 
-  console.log(dataForTable);
+  const search = () => {
+    const apiUrl = `/api/user/search?keyword=${deferredSearch}`;
+
+    axios
+      .get(apiUrl)
+      .then(response => {
+        const data = response.data;
+        setResults(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -35,10 +57,7 @@ const Dashboard = props => {
                 <span>{flash.message}</span>
               </div>
             )}
-            <SFT
-              data={props.dataForTable.data[0].name}
-              setResults={setResults}
-            />
+            <SFT keyword={keyword} setKeyword={setKeyword} />
             <Table results={results} dataForTable={dataForTable.data}>
               <Table.Thead>
                 <Table.Tr>

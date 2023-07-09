@@ -1,15 +1,25 @@
 import Seo from '@/Components/Seo/Seo';
 import LogedLayouts from '@/Layouts/loged-layouts';
 import { SearchForTable as SFT } from '@/Components/Search/SearchForTable';
-import React, { useEffect, useState } from 'react';
+import React, { useDeferredValue, useEffect, useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { BiCheck } from 'react-icons/bi';
 import Table from '@/Components/Tabel/Tabel';
 
-const Dashboard = (props) => {
+const Dashboard = props => {
   const { flash, dataForTable } = usePage().props;
   const [results, setResults] = useState([]);
   const [showFlash, setShowFlash] = useState(false);
+  const [keyword, setKeyword] = useState('');
+  const deferredSearch = useDeferredValue(keyword);
+
+  useEffect(() => {
+    if (deferredSearch !== '') {
+      search();
+    } else {
+      setResults([]);
+    }
+  }, [deferredSearch]);
 
   useEffect(() => {
     if (flash.message) {
@@ -21,7 +31,19 @@ const Dashboard = (props) => {
     }
   }, [flash.message]);
 
-  console.log(results);
+  const search = () => {
+    const apiUrl = `/api/pemohons/search?keyword=${deferredSearch}`;
+
+    axios
+      .get(apiUrl)
+      .then(response => {
+        const data = response.data;
+        setResults(data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -34,7 +56,7 @@ const Dashboard = (props) => {
                 <span>{flash.message}</span>
               </div>
             )}
-            <SFT setResults={setResults} />
+            <SFT keyword={keyword} setKeyword={setKeyword} />
             <Table results={results} dataForTable={dataForTable.data}>
               <Table.Thead>
                 <Table.Tr>
@@ -55,8 +77,10 @@ const Dashboard = (props) => {
                             {data.nama_pemohon ? data.nama_pemohon : '-'}
                           </Table.Td>
                           <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
-                          <Table.Td>{data.status.status ? data.status.status: `-`}</Table.Td>
-                          
+                          <Table.Td>
+                            {data.status.status ? data.status.status : `-`}
+                          </Table.Td>
+
                           <Table.Td>
                             <Table.Link
                               href={route(`pelayanan-publik.show`, [data.id])}
@@ -75,7 +99,9 @@ const Dashboard = (props) => {
                             {data.nama_pemohon ? data.nama_pemohon : '-'}
                           </Table.Td>
                           <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
-                          <Table.Td>{data.status.status ? data.status.status : `-`}</Table.Td>
+                          <Table.Td>
+                            {data.status.status ? data.status.status : `-`}
+                          </Table.Td>
                           <Table.Td>
                             <Table.Link
                               href={route(`pelayanan-publik.show`, [data.id])}

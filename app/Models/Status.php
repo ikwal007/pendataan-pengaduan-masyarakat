@@ -29,12 +29,23 @@ class Status extends Model
         return $this->hasMany(Pemohon::class);
     }
 
-    public function penanganan(){
+    public function penanganan()
+    {
         return $this->hasMany(Penanganan::class);
     }
 
     public function getIdStatusDefault()
     {
         return $this->where('status', 'pending')->first()->id;
+    }
+
+    public function getAllStatus()
+    {
+        return $this->get();
+    }
+
+    public function getDetailStatusByName($keyword)
+    {
+        return $this->where('status', 'LIKE', "%{$keyword}%")->first();
     }
 }

@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
-    // for seksi
+    // for pelayanan
     Route::middleware(['role:Pelayanan_Publik'])->group(function () {
         Route::prefix('pelayanan-publik')->group(function () {
             Route::controller(PelayananDashboardController::class)->group(function () {
@@ -60,7 +60,8 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('seksi')->group(function () {
             Route::controller(SeksiDashboardController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('seksi.index');
-                Route::get('/show-detail/{id}', 'show')->name('seksi.show');
+                Route::get('/edit-pemohonan/{seksiId}/{penangananId}', 'edit')->name('seksi.edit');
+                Route::patch('/edit-pemohonan/{penangananId}', 'update')->name('seksi.update');
             });
         });
     });
