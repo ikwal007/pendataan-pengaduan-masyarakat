@@ -209,19 +209,39 @@ export default function Sidebar() {
                     <Link href={route('masyarakat.index')}>
                       <span
                         className={`flex text-xs uppercase py-3 font-bold ${
-                          route().current('masyarakat.*')
+                          route().current('masyarakat.index')
                             ? 'text-success hover:text-success hover:opacity-50'
                             : 'text-black hover:text-black hover:opacity-50'
                         }`}
                       >
                         <MdDashboard
                           className={`mr-2 text-sm ${
-                            route().current('masyarakat.*')
+                            route().current('masyarakat.index')
                               ? 'opacity-75'
                               : 'text-black'
                           }`}
                         />
                         Dashboard
+                      </span>
+                    </Link>
+                  </li>
+                  <li className='items-center'>
+                    <Link href={route('masyarakat.create')}>
+                      <span
+                        className={`flex text-xs uppercase py-3 font-bold ${
+                          route().current('masyarakat.create')
+                            ? 'text-success hover:text-success hover:opacity-50'
+                            : 'text-black hover:text-black hover:opacity-50'
+                        }`}
+                      >
+                        <MdDashboard
+                          className={`mr-2 text-sm ${
+                            route().current('masyarakat.create')
+                              ? 'opacity-75'
+                              : 'text-black'
+                          }`}
+                        />
+                        Create Pemohonan
                       </span>
                     </Link>
                   </li>

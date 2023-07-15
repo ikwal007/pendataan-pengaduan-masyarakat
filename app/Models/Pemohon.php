@@ -28,7 +28,7 @@ class Pemohon extends Model
      */
     public function penanganan()
     {
-        return $this->hasMany(Penanganan::class);
+        return $this->hasMany(Penanganan::class)->with(['seksi', 'status']);
     }
 
     /**
@@ -85,10 +85,15 @@ class Pemohon extends Model
      * @param  int|null  $perPage
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
      */
-    public function getAllPemohonans($perPage = 10)
+    public function getAllPemohonans($perPage = 10, $nik = null)
     {
-        return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])
-            ->paginate($perPage);
+        if ($nik) {
+            return $this->where('nik', $nik)->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])
+                ->paginate($perPage);
+        } else {
+            return $this->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])
+                ->paginate($perPage);
+        }
     }
 
     /**
@@ -129,7 +134,7 @@ class Pemohon extends Model
      * @param  int|null  $id
      * @return \stdClass
      */
-    public function getCountAllPemohons()
+    public function getCountAllPemohons($nik = null)
     {
         $dataCount = (object) array(
             'pengaduan' => 0,
@@ -138,19 +143,36 @@ class Pemohon extends Model
             'finis' => 0
         );
 
-        $dataCount->pengaduan = $this->count();
+        if ($nik) {
+            $dataCount->pengaduan = $this->where('nik', $nik)->count();
 
-        $dataCount->pending = $this->whereHas('status', function ($query) {
-            $query->where('status', 'pending');
-        })->count();
+            $dataCount->pending = $this->where('nik', $nik)->whereHas('status', function ($query) {
+                $query->where('status', 'pending');
+            })->count();
 
-        $dataCount->pending = $this->whereHas('status', function ($query) {
-            $query->where('status', 'prosesing');
-        })->count();
+            $dataCount->prosesing = $this->where('nik', $nik)->whereHas('status', function ($query) {
+                $query->where('status', 'prosesing');
+            })->count();
 
-        $dataCount->pending = $this->whereHas('status', function ($query) {
-            $query->where('status', 'finis');
-        })->count();
+            $dataCount->finis = $this->where('nik', $nik)->whereHas('status', function ($query) {
+                $query->where('status', 'finis');
+            })->count();
+        } else {
+            $dataCount->pengaduan = $this->count();
+
+            $dataCount->pending = $this->whereHas('status', function ($query) {
+                $query->where('status', 'pending');
+            })->count();
+
+            $dataCount->pending = $this->whereHas('status', function ($query) {
+                $query->where('status', 'prosesing');
+            })->count();
+
+            $dataCount->pending = $this->whereHas('status', function ($query) {
+                $query->where('status', 'finis');
+            })->count();
+        }
+
 
         return $dataCount;
     }

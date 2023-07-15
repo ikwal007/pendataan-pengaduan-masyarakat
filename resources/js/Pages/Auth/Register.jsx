@@ -11,6 +11,7 @@ export default function Register() {
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
     email: '',
+    nik: '',
     password: '',
     password_confirmation: '',
   });
@@ -71,6 +72,22 @@ export default function Register() {
           />
 
           <InputError message={errors.email} className='mt-2' />
+        </div>
+        
+        <div className='mt-4'>
+          <InputLabel htmlFor='nik' value='Nik' />
+
+          <TextInput
+            id='nik'
+            type='number'
+            name='nik'
+            value={data.nik}
+            className='mt-1 block w-full'
+            onChange={handleOnChange}
+            required
+          />
+
+          <InputError message={errors.nik} className='mt-2' />
         </div>
 
         <div className='mt-4'>

@@ -37,8 +37,8 @@ export default function Welcome(props) {
 }
 
 Welcome.layout = page => (
-  <GuestLayouts>
-    <Seo />
+  <GuestLayouts title={`Dashboard Pelayanan Publik`}>
+    <Seo title={`Dashboard Pelayanan Publik`} />
     {page}
   </GuestLayouts>
 );

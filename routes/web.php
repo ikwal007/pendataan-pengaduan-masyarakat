@@ -72,13 +72,11 @@ Route::middleware(['auth'])->group(function () {
             Route::controller(MasyarakatDashboardController::class)->group(function () {
                 Route::get('/dashboard', 'index')->name('masyarakat.index');
                 Route::get('/show-detail/{id}', 'show')->name('masyarakat.show');
+                Route::get('/create', 'create')->name('masyarakat.create');
             });
         });
     });
 });
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dashboard/{id}', [DashboardController::class, 'show']);
 
 
 Route::get('/admin/pemohon', [PemohonController::class, 'index'])->name('admin.pemohon')->middleware(['auth', 'verified', 'role:Super_Admin']);
