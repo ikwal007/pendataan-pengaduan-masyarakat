@@ -39,8 +39,13 @@ class JenisMediaPengaduan extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection Kumpulan semua jenis media pengaduan.
      */
-    public function allJenisMediaPengaduan()
+    public function allJenisMediaPengaduan($keyword)
     {
-        return $this->all();
+        if ($keyword) {
+            return $this->where('nama_media_pengaduan', 'LIKE', "%{$keyword}%")->first();
+        } else {
+            return $this->all();
+        }
+        
     }
 }

@@ -3,28 +3,24 @@ import LogedLayouts from '@/Layouts/loged-layouts';
 import { useForm, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-const CreatePemohon = (props) => {
+const CreatePemohon = props => {
   const {
     allKecamatan,
     allSeksi,
     allJenisPengaduanAndException,
-    allJenisMediaPengaduan,
+    jenisMediaPengaduan,
     allJenisSertifikat,
+    auth,
   } = usePage().props;
 
   const { data, setData, post, processing, errors, setError, reset } = useForm({
     jenis_pengaduan: '',
-    jenis_media_pengaduan: '',
-    nama_pemohon: '',
-    no_nik: '',
+    jenis_media_pengaduan: jenisMediaPengaduan.id,
+    nama_pemohon: auth.user.name,
+    no_nik: auth.user.nik,
     no_hak: '',
     jenis_sertifikat: '',
     keterangan_laporan_pengaduan: '',
-    seksi_survei_dan_pemetaan: false,
-    seksi_penataan_dan_pemberdayaan: false,
-    seksi_pengendalian_dan_penanganan_sengketa: false,
-    seksi_penetapan_hak_dan_pendaftaran: false,
-    seksi_pengadaan_tanah_dan_pengembangan: false,
     kecamatan: '',
     desa: '',
   });
@@ -67,7 +63,7 @@ const CreatePemohon = (props) => {
     });
   };
 
-  console.log(props);
+  console.log(data);
 
   return (
     <>
@@ -100,67 +96,6 @@ const CreatePemohon = (props) => {
               )}
             </select>
           </div>
-
-          <div className='form-control w-full max-w-xs'>
-            <label className='label'>
-              <span className='label-text'>Jenis Media Pengaduan</span>
-            </label>
-            <select
-              name='jenis_media_pengaduan'
-              className='select select-bordered'
-              onChange={handleChangeForm}
-              required
-            >
-              <option>Jenis Media Pengaduan</option>
-              {allJenisMediaPengaduan.map((data, i) => {
-                return (
-                  <option key={i} value={data.id}>
-                    {data.nama_media_pengaduan}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className='form-control w-full max-w-xs'>
-            <label className='label'>
-              <span className='label-text'>Nama Pemohon</span>
-            </label>
-            <input
-              name='nama_pemohon'
-              onChange={handleChangeForm}
-              value={data.nama_pemohon}
-              type='text'
-              placeholder='Masukkan Nama Pemohon'
-              className='input input-bordered w-full max-w-xs'
-              required
-            />
-            {errors.nama_pemohon ? (
-              <label className='label'>
-                <span className='label-text-alt'>{errors.nama_pemohon}</span>
-              </label>
-            ) : null}
-          </div>
-          {form == true ? (
-            <div className='form-control w-full max-w-xs'>
-              <label className='label'>
-                <span className='label-text'>No KTP</span>
-              </label>
-              <input
-                name='no_nik'
-                onChange={handleChangeForm}
-                value={data.no_nik}
-                type='number'
-                placeholder='Masukan NIK Pemohon'
-                className='input input-bordered w-full max-w-xs'
-                required
-              />
-              {errors.no_nik ? (
-                <label className='label'>
-                  <span className='label-text-alt'>{errors.no_nik}</span>
-                </label>
-              ) : null}
-            </div>
-          ) : null}
 
           {form == true ? (
             <div className='form-control w-full max-w-xs'>
@@ -218,27 +153,6 @@ const CreatePemohon = (props) => {
               required
             />
           </div>
-          {form == true ? (
-            <div className='form-control flex-row flex-wrap justify-between'>
-              <span className='label-text w-full'>Penanganan</span>
-              {allSeksi.map((data, i) => {
-                return (
-                  <label
-                    className='label cursor-pointer space-x-3 w-2/5'
-                    key={i}
-                  >
-                    <span className='label-text'>{data.nama_seksi}</span>
-                    <input
-                      name={`${data.nama_seksi.replace(/ /g, '_')}`}
-                      type='checkbox'
-                      className='checkbox'
-                      onChange={handleChangeForm}
-                    />
-                  </label>
-                );
-              })}
-            </div>
-          ) : null}
 
           {form == true ? (
             <div className='form-control w-full max-w-xs'>

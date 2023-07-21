@@ -9,7 +9,6 @@ const ShowDetailPage = () => {
   const goBack = () => {
     router.visit('/masyarakat/dashboard');
   };
-  console.log(dataForShowDetail);
   return (
     <>
       <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>

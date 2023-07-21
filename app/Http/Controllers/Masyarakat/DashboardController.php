@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $dataForStats = $pemohon->getCountAllPemohons($auth->nik);
 
         $jenisMediaPengaduan = new JenisMediaPengaduan();
-        $allJenisMediaPengaduan = $jenisMediaPengaduan->allJenisMediaPengaduan();
+        $jenisMediaPengaduan = $jenisMediaPengaduan->allJenisMediaPengaduan('langsung');
 
         $jenisSertifikat = new JenisSertifikat();
         $allJenisSertifikat = $jenisSertifikat->allJenisSertifikat();
@@ -52,7 +52,7 @@ class DashboardController extends Controller
         $kecamatan = new Kecamatan();
         $allKecamatan = $kecamatan->getAllKecamatanWiteDesa();
 
-        return Inertia::render('Masyarakat/CreatePemohon', compact(['dataForStats', 'allKecamatan', 'allSeksi', 'allJenisPengaduanAndException', 'allJenisMediaPengaduan', 'allJenisSertifikat']));
+        return Inertia::render('Masyarakat/CreatePemohon', compact(['dataForStats', 'allKecamatan', 'allSeksi', 'allJenisPengaduanAndException', 'jenisMediaPengaduan', 'allJenisSertifikat']));
     }
 
     /**
