@@ -67,24 +67,24 @@ const Dashboard = () => {
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-              {dataForTable.data
-                ? dataForTable.data.map((data, i) => {
-                    return (
-                      <Table.Tr key={i}>
-                        <Table.Td>{i + 1}</Table.Td>
-                        <Table.Td>{data.no_hak}</Table.Td>
-                        <Table.Td>{data.status.status}</Table.Td>
-                        <Table.Td>
-                          <Table.Link
-                            href={route(`masyarakat.show`, [data.id])}
-                          >
-                            Show Detail
-                          </Table.Link>
-                        </Table.Td>
-                      </Table.Tr>
-                    );
-                  })
-                : null}
+              {dataForTable.data.length > 0 ? (
+                dataForTable.data.map((data, i) => {
+                  return (
+                    <Table.Tr key={i}>
+                      <Table.Td>{i + 1}</Table.Td>
+                      <Table.Td>{data.no_hak}</Table.Td>
+                      <Table.Td>{data.status.status}</Table.Td>
+                      <Table.Td>
+                        <Table.Link href={route(`masyarakat.show`, [data.id])}>
+                          Show Detail
+                        </Table.Link>
+                      </Table.Td>
+                    </Table.Tr>
+                  );
+                })
+              ) : (
+                <Table.Td className='capitalize' colSpan={4} align={`center`}>data atas nama anda tidak ada</Table.Td>
+              )}
             </Table.Tbody>
           </Table>
           {results.length === 0 && (

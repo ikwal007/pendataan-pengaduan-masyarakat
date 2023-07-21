@@ -73,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/dashboard', 'index')->name('masyarakat.index');
                 Route::get('/show-detail/{id}', 'show')->name('masyarakat.show');
                 Route::get('/create', 'create')->name('masyarakat.create');
+                Route::post('/create', 'store')->name('masyarakat.store');
             });
         });
     });

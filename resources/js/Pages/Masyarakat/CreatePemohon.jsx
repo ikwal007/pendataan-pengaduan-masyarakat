@@ -13,6 +13,9 @@ const CreatePemohon = props => {
     auth,
   } = usePage().props;
 
+  const [selectedKecamatan, setSelectedKecamatan] = useState(null);
+  const [form, setForm] = useState(false);
+
   const { data, setData, post, processing, errors, setError, reset } = useForm({
     jenis_pengaduan: '',
     jenis_media_pengaduan: jenisMediaPengaduan.id,
@@ -24,9 +27,6 @@ const CreatePemohon = props => {
     kecamatan: '',
     desa: '',
   });
-
-  const [selectedKecamatan, setSelectedKecamatan] = useState(null);
-  const [form, setForm] = useState(false);
 
   const handleChangeForm = e => {
     const { name, value, checked, type } = e.target;
@@ -57,7 +57,7 @@ const CreatePemohon = props => {
 
   const submit = e => {
     e.preventDefault();
-    post(route('pelayanan-publik.store'), {
+    post(route('masyarakat.store'), {
       preserveScroll: true,
       onSuccess: () => reset(),
     });

@@ -27,8 +27,8 @@ const Th = ({ children }) => {
   return <th>{children}</th>;
 };
 
-const Td = ({ children }) => {
-  return <td>{children}</td>;
+const Td = ({ children, ...props }) => {
+  return <td {...props}>{children}</td>;
 };
 
 const TabelLink = ({ className = '', children, ...props }) => {
