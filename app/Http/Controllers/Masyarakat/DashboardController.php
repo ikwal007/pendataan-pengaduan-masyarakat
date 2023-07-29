@@ -27,8 +27,11 @@ class DashboardController extends Controller
         $pemohon = new Pemohon();
         $dataForTable = $pemohon->getAllPemohonans(5, $auth->nik);
         $dataForStats = $pemohon->getCountAllPemohons($auth->nik);
+        $dataForTableByStatusPending = $pemohon->findPemohonByStatus($auth->nik, 'pending');
+        $dataForTableByStatusProsesing = $pemohon->findPemohonByStatus($auth->nik, 'prosesing');
+        $dataForTableByStatusFinis = $pemohon->findPemohonByStatus($auth->nik, 'finis');
 
-        return Inertia::render('Masyarakat/Dashboard', compact(['dataForTable', 'dataForStats']));
+        return Inertia::render('Masyarakat/Dashboard', compact(['dataForTable', 'dataForStats', 'dataForTableByStatusPending', 'dataForTableByStatusProsesing', 'dataForTableByStatusFinis']));
     }
 
     /**
@@ -64,7 +67,6 @@ class DashboardController extends Controller
     public function store(StorePemohonanRequest $request)
     {
         $status = new Status();
-        $seksi = new Seksi();
         $jenisPengaduan = new JenisPengaduan();
         $findJenisPengaduan = $jenisPengaduan->allJenisPengaduanAndException();
 
@@ -80,8 +82,9 @@ class DashboardController extends Controller
         $pemohon->kecamatan_id = $findJenisPengaduan->pengecualianJenisPengaduan->id === $request->jenis_pengaduan ? null : $request->kecamatan;
         $pemohon->desa_id = $findJenisPengaduan->pengecualianJenisPengaduan->id === $request->jenis_pengaduan ? null : $request->desa;
         $pemohon->status_id = $status->getIdStatusDefault();
-        // $pemohon->save();
-        dd($pemohon);
+        $pemohon->save();
+        
+        return redirect('/masyarakat/dashboard')->with('message', 'Create Data Success');
     }
 
     /**

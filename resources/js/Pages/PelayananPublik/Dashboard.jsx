@@ -45,6 +45,8 @@ const Dashboard = props => {
       });
   };
 
+  console.log(dataForTable);
+
   return (
     <>
       <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
@@ -68,53 +70,65 @@ const Dashboard = props => {
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
-                {results.length > 0
-                  ? results.map((data, i) => {
-                      return (
-                        <Table.Tr key={i}>
-                          <Table.Td>{i + 1}</Table.Td>
-                          <Table.Td>
-                            {data.nama_pemohon ? data.nama_pemohon : '-'}
-                          </Table.Td>
-                          <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
-                          <Table.Td>
-                            {data.status.status ? data.status.status : `-`}
-                          </Table.Td>
+                {results.length > 0 ? (
+                  results.map((data, i) => {
+                    return (
+                      <Table.Tr key={i}>
+                        <Table.Td>{i + 1}</Table.Td>
+                        <Table.Td>
+                          {data.nama_pemohon ? data.nama_pemohon : '-'}
+                        </Table.Td>
+                        <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
+                        <Table.Td>
+                          {data.status.status ? data.status.status : `-`}
+                        </Table.Td>
 
-                          <Table.Td>
-                            <Table.Link
-                              href={route(`pelayanan-publik.show`, [data.id])}
-                            >
-                              Show Details
-                            </Table.Link>
-                          </Table.Td>
-                        </Table.Tr>
-                      );
-                    })
-                  : dataForTable.data.map((data, i) => {
-                      return (
-                        <Table.Tr key={i}>
-                          <Table.Td>{i + 1}</Table.Td>
-                          <Table.Td>
-                            {data.nama_pemohon ? data.nama_pemohon : '-'}
-                          </Table.Td>
-                          <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
-                          <Table.Td>
-                            {data.status.status ? data.status.status : `-`}
-                          </Table.Td>
-                          <Table.Td>
-                            <Table.Link
-                              href={route(`pelayanan-publik.show`, [data.id])}
-                            >
-                              Show Details
-                            </Table.Link>
-                          </Table.Td>
-                        </Table.Tr>
-                      );
-                    })}
+                        <Table.Td>
+                          <Table.Link
+                            href={route(`pelayanan-publik.show`, [data.id])}
+                          >
+                            Show Details
+                          </Table.Link>
+                        </Table.Td>
+                      </Table.Tr>
+                    );
+                  })
+                ) : dataForTable.data.length > 0 ? (
+                  dataForTable.data.map((data, i) => {
+                    return (
+                      <Table.Tr key={i}>
+                        <Table.Td>{i + 1}</Table.Td>
+                        <Table.Td>
+                          {data.nama_pemohon ? data.nama_pemohon : '-'}
+                        </Table.Td>
+                        <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
+                        <Table.Td>
+                          {data.status.status ? data.status.status : `-`}
+                        </Table.Td>
+                        <Table.Td>
+                          <Table.Link
+                            href={route(`pelayanan-publik.show`, [data.id])}
+                          >
+                            Show Details
+                          </Table.Link>
+                        </Table.Td>
+                      </Table.Tr>
+                    );
+                  })
+                ) : (
+                  <Table.Tr>
+                    <Table.Td
+                      className='capitalize'
+                      colSpan={5}
+                      align={`center`}
+                    >
+                      Data pemohon tidak tersedia
+                    </Table.Td>
+                  </Table.Tr>
+                )}
               </Table.Tbody>
             </Table>
-            {results.length === 0 && (
+            {results.length === 0 || dataForTable.data.length === 0 && (
               <div className='join grid grid-cols-2 max-w-[250px] mt-3'>
                 <Link
                   href={dataForTable.prev_page_url}

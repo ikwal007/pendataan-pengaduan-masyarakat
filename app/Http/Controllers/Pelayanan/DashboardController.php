@@ -24,7 +24,7 @@ class DashboardController extends Controller
     public function index()
     {
         $pemohon = new Pemohon();
-        $dataForTable = $pemohon->getAllPemohonans(5);
+        $dataForTable = $pemohon->getAllPemohonansWithPenanganan();
         $dataForStats = $pemohon->getCountAllPemohons();
 
         return Inertia::render('PelayananPublik/Dashboard', compact(['dataForTable', 'dataForStats']));

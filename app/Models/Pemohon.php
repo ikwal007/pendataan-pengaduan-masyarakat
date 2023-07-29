@@ -97,6 +97,37 @@ class Pemohon extends Model
     }
 
     /**
+     * Dapatkan semua catatan pemohon berdasarkan status
+     * @param string $nikUser
+     * @param string $status
+     */
+    public function findPemohonByStatus($nikUser, $status) {
+        return $this->where('nik', $nikUser)->whereHas('status', function($query) use ($status){
+            $query->where('status', 'LIKE', "%{$status}%");
+        })->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->latest()->paginate(5);
+    }
+
+    /**
+     * Dapatkan semua catatan pemohon yang berelasi dengan penanganan.
+     * 
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllPemohonansWithPenanganan()
+    {
+        return $this->has('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->paginate(5);
+    }
+
+    /**
+     * Dapatkan semua catatan pemohon yang belum terkait dengan penanganan
+     * 
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllPeninjauPemohon($perPage = 10)
+    {
+        return $this->doesntHave('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->paginate($perPage);
+    }
+
+    /**
      * Dapatkan informasi detail dari catatan pemohon.
      *
      * @param  int  $id
@@ -164,11 +195,11 @@ class Pemohon extends Model
                 $query->where('status', 'pending');
             })->count();
 
-            $dataCount->pending = $this->whereHas('status', function ($query) {
+            $dataCount->prosesing = $this->whereHas('status', function ($query) {
                 $query->where('status', 'prosesing');
             })->count();
 
-            $dataCount->pending = $this->whereHas('status', function ($query) {
+            $dataCount->finis = $this->whereHas('status', function ($query) {
                 $query->where('status', 'finis');
             })->count();
         }

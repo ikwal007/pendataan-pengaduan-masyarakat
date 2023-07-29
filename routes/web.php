@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Masyarakat\DashboardController as MasyarakatDashboardController;
 use App\Http\Controllers\Pelayanan\DashboardController as PelayananDashboardController;
+use App\Http\Controllers\Pelayanan\PeninjauPemohonController;
 use App\Http\Controllers\PemohonController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seksi\DashboardController as SeksiDashboardController;
@@ -51,6 +52,11 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/show-detail/{id}', 'show')->name('pelayanan-publik.show');
                 Route::get('/create-permohonan', 'create')->name('pelayanan-publik.create');
                 Route::post('/create-permohonan', 'store')->name('pelayanan-publik.store');
+            });
+            Route::controller(PeninjauPemohonController::class)->group(function () {
+                Route::get('/peninjauan-pemohon', 'index')->name('pelayanan-publik.peninjauan-pemohon');
+                Route::get('/peninjauan-pemohon/{id}', 'edit')->name('pelayanan-publik.peninjauan-pemohon-edit');
+                Route::patch('/peninjauan-pemohon/{id}', 'update')->name('pelayanan-publik.peninjauan-pemohon-update');
             });
         });
     });

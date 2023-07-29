@@ -157,6 +157,28 @@ export default function Sidebar() {
                       </span>
                     </Link>
                   </li>
+                  <li className='items-center'>
+                    <Link href={route('pelayanan-publik.peninjauan-pemohon')}>
+                      <span
+                        className={`flex text-xs uppercase py-3 font-bold ${
+                          route().current('pelayanan-publik.peninjauan-pemohon') ||
+                          route().current('pelayanan-publik.peninjauan-pemohon-edit')
+                            ? 'text-success hover:text-success hover:opacity-50'
+                            : 'text-black hover:text-black hover:opacity-50'
+                        }`}
+                      >
+                        <MdOutlinePostAdd
+                          className={`mr-2 text-sm ${
+                            route().current('pelayanan-publik.peninjauan-pemohon') ||
+                            route().current('pelayanan-publik.peninjauan-pemohon-edit')
+                              ? 'opacity-75'
+                              : 'text-black'
+                          }`}
+                        />
+                        Peninjauan Permohonan
+                      </span>
+                    </Link>
+                  </li>
                 </ul>
               </div>
             )}
