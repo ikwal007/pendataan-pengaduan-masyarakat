@@ -16,7 +16,7 @@ const CreatePemohon = props => {
   const [selectedKecamatan, setSelectedKecamatan] = useState(null);
   const [form, setForm] = useState(false);
 
-  const { data, setData, post, processing, errors, setError, reset } = useForm({
+  const { data, setData, post, processing, errors, setError, reset  } = useForm({
     jenis_pengaduan: '',
     jenis_media_pengaduan: jenisMediaPengaduan.id,
     nama_pemohon: auth.user.name,
@@ -27,6 +27,8 @@ const CreatePemohon = props => {
     kecamatan: '',
     desa: '',
   });
+
+  const isDirtyJenisPengaduan = () => data.jenis_pengaduan == '' ? true : false
 
   const handleChangeForm = e => {
     const { name, value, checked, type } = e.target;
@@ -63,7 +65,7 @@ const CreatePemohon = props => {
     });
   };
 
-  console.log(data);
+  console.log(isDirtyJenisPengaduan());
 
   return (
     <>
@@ -84,7 +86,7 @@ const CreatePemohon = props => {
               onChange={handleChangeForm}
               required
             >
-              <option>Jenis Pengaduan</option>
+              <option disabled={true}>Jenis Pengaduan</option>
               {allJenisPengaduanAndException.semuaJenisPengaduan.map(
                 (data, i) => {
                   return (
@@ -197,7 +199,7 @@ const CreatePemohon = props => {
             <button
               className='mt-3 btn btn-success text-base-100'
               type='submit'
-              disabled={processing}
+              disabled={processing || isDirtyJenisPengaduan() }
             >
               Upload
             </button>
