@@ -101,8 +101,9 @@ class Pemohon extends Model
      * @param string $nikUser
      * @param string $status
      */
-    public function findPemohonByStatus($nikUser, $status) {
-        return $this->where('nik', $nikUser)->whereHas('status', function($query) use ($status){
+    public function findPemohonByStatus($nikUser, $status)
+    {
+        return $this->where('nik', $nikUser)->whereHas('status', function ($query) use ($status) {
             $query->where('status', 'LIKE', "%{$status}%");
         })->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->latest()->paginate(5);
     }
@@ -146,14 +147,20 @@ class Pemohon extends Model
      * @return \Illuminate\Database\Eloquent\Builder
      * @throws \Exception
      */
-    public function search($keyword)
+    public function liveSearchPemohon($keyword)
     {
         try {
-            return $this->where(function ($query) use ($keyword) {
-                $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
-                    ->orWhere('nik', 'LIKE', "%{$keyword}%");
-            })
-                ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])->get();
+            if ($keyword !== ' ' && $keyword !== '') {
+                return $this->has('penanganan')->where(function ($query) use ($keyword) {
+                    $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
+                        ->orWhere('nik', 'LIKE', "%{$keyword}%");
+                })
+                    ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])->get();
+            }
+
+            return $this->has('penanganan')->whereHas('jenisPengaduan', function ($query) use ($keyword) {
+                $query->where('jenis_pengaduan', 'LIKE', "%{$keyword}%");
+            })->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->latest()->get();
         } catch (\Exception $e) {
             throw new \Exception('Error in search method: ' . $e->getMessage());
         }

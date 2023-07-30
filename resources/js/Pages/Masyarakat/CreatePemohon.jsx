@@ -65,8 +65,6 @@ const CreatePemohon = props => {
     });
   };
 
-  console.log(isDirtyJenisPengaduan());
-
   return (
     <>
       <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>

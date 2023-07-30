@@ -45,7 +45,7 @@ const Dashboard = props => {
       });
   };
 
-  console.log(dataForTable);
+  console.log(results);
 
   return (
     <>

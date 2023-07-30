@@ -15,7 +15,7 @@ class SearchController extends Controller
         $keyword = $request->input('keyword');
 
         $pemohon = new Pemohon();
-        $results = $pemohon->search($keyword);
+        $results = $pemohon->liveSearchPemohon($keyword);
 
         return response()->json($results);
     }
