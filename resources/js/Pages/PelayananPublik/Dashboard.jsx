@@ -3,21 +3,30 @@ import LogedLayouts from '@/Layouts/loged-layouts';
 import { SearchForTable as SFT } from '@/Components/Search/SearchForTable';
 import React, { useDeferredValue, useEffect, useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
-import { BiCheck } from 'react-icons/bi';
+import { BiCheck, BiEraser } from 'react-icons/bi';
 import Table from '@/Components/Tabel/Tabel';
 
-const Dashboard = props => {
+const Dashboard = () => {
   const { flash, dataForTable } = usePage().props;
   const [results, setResults] = useState([]);
   const [showFlash, setShowFlash] = useState(false);
   const [keyword, setKeyword] = useState('');
   const deferredSearch = useDeferredValue(keyword);
 
+  const handleInputChange = e => {
+    setKeyword(e.target.value);
+  };
+
+  const handleInputClear = () => {
+    setKeyword('');
+    setResults([]);
+  };
+
   useEffect(() => {
-    if (deferredSearch !== '') {
-      search();
-    } else {
+    if (deferredSearch.trim() == '') {
       setResults([]);
+    } else {
+      search();
     }
   }, [deferredSearch]);
 
@@ -45,7 +54,41 @@ const Dashboard = props => {
       });
   };
 
-  console.log(results);
+  const rowTableByStatusComponents = data => {
+    return (
+      <>
+        {data.map((data, i) => {
+          return (
+            <Table.Tr key={i}>
+              <Table.Td>{i + 1}</Table.Td>
+              <Table.Td>{data.nama_pemohon}</Table.Td>
+              <Table.Td>{data.nik}</Table.Td>
+              <Table.Td>{data.status.status}</Table.Td>
+              <Table.Td>
+                <Table.Link href={route(`pelayanan-publik.show`, [data.id])}>
+                  Show Detail
+                </Table.Link>
+              </Table.Td>
+            </Table.Tr>
+          );
+        })}
+      </>
+    );
+  };
+
+  let selectedData;
+  let prevLink;
+  let nextLink;
+
+  if (Array.isArray(results) && results.length === 0) {
+    selectedData = dataForTable.data;
+    prevLink = dataForTable.prev_page_url;
+    nextLink = dataForTable.next_page_url;
+  } else {
+    selectedData = results;
+    prevLink = '';
+    nextLink = '';
+  }
 
   return (
     <>
@@ -58,7 +101,23 @@ const Dashboard = props => {
                 <span>{flash.message}</span>
               </div>
             )}
-            <SFT keyword={keyword} setKeyword={setKeyword} />
+            <div className='flex justify-end'>
+              <div className='join'>
+                <input
+                  type='text'
+                  placeholder='Search...'
+                  value={keyword}
+                  onChange={handleInputChange}
+                  className='input input-bordered join-item input-success w-full max-w-xs'
+                />
+                <button
+                  className='btn btn-success join-item rounded-r-full'
+                  onClick={handleInputClear}
+                >
+                  <BiEraser className='text-white w-6 h-6' />
+                </button>
+              </div>
+            </div>
             <Table results={results} dataForTable={dataForTable.data}>
               <Table.Thead>
                 <Table.Tr>
@@ -70,77 +129,30 @@ const Dashboard = props => {
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
-                {results.length > 0 ? (
-                  results.map((data, i) => {
-                    return (
-                      <Table.Tr key={i}>
-                        <Table.Td>{i + 1}</Table.Td>
-                        <Table.Td>
-                          {data.nama_pemohon ? data.nama_pemohon : '-'}
-                        </Table.Td>
-                        <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
-                        <Table.Td>
-                          {data.status.status ? data.status.status : `-`}
-                        </Table.Td>
-
-                        <Table.Td>
-                          <Table.Link
-                            href={route(`pelayanan-publik.show`, [data.id])}
-                          >
-                            Show Details
-                          </Table.Link>
-                        </Table.Td>
-                      </Table.Tr>
-                    );
-                  })
-                ) : dataForTable.data.length > 0 ? (
-                  dataForTable.data.map((data, i) => {
-                    return (
-                      <Table.Tr key={i}>
-                        <Table.Td>{i + 1}</Table.Td>
-                        <Table.Td>
-                          {data.nama_pemohon ? data.nama_pemohon : '-'}
-                        </Table.Td>
-                        <Table.Td>{data.nik ? data.nik : `-`}</Table.Td>
-                        <Table.Td>
-                          {data.status.status ? data.status.status : `-`}
-                        </Table.Td>
-                        <Table.Td>
-                          <Table.Link
-                            href={route(`pelayanan-publik.show`, [data.id])}
-                          >
-                            Show Details
-                          </Table.Link>
-                        </Table.Td>
-                      </Table.Tr>
-                    );
-                  })
-                ) : (
-                  <Table.Tr>
-                    <Table.Td
-                      className='capitalize'
-                      colSpan={5}
-                      align={`center`}
-                    >
-                      Data pemohon tidak tersedia
-                    </Table.Td>
-                  </Table.Tr>
-                )}
+              {selectedData.length > 0 ? (
+                rowTableByStatusComponents(selectedData)
+              ) : (
+                <Table.Tr>
+                  <Table.Td className='capitalize' colSpan={5} align='center'>
+                    data atas nama anda tidak ada
+                  </Table.Td>
+                </Table.Tr>
+              )}
               </Table.Tbody>
             </Table>
-            {results.length === 0 || dataForTable.data.length === 0 && (
+            {results.length === 0 && (
               <div className='join grid grid-cols-2 max-w-[250px] mt-3'>
                 <Link
-                  href={dataForTable.prev_page_url}
+                  href={prevLink}
                   className='join-item btn btn-xs btn-outline'
-                  disabled={!dataForTable.prev_page_url}
+                  disabled={!prevLink}
                 >
                   Previous page
                 </Link>
                 <Link
-                  href={dataForTable.next_page_url}
+                  href={nextLink}
                   className='join-item btn btn-xs btn-outline'
-                  disabled={!dataForTable.next_page_url}
+                  disabled={!nextLink}
                 >
                   Next
                 </Link>

@@ -115,7 +115,7 @@ class Pemohon extends Model
      */
     public function getAllPemohonansWithPenanganan()
     {
-        return $this->has('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->paginate(5);
+        return $this->has('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->latest()->paginate(5);
     }
 
     /**
@@ -150,17 +150,11 @@ class Pemohon extends Model
     public function liveSearchPemohon($keyword)
     {
         try {
-            if ($keyword !== ' ' && $keyword !== '') {
-                return $this->has('penanganan')->where(function ($query) use ($keyword) {
-                    $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
-                        ->orWhere('nik', 'LIKE', "%{$keyword}%");
-                })
-                    ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])->get();
-            }
-
-            return $this->has('penanganan')->whereHas('jenisPengaduan', function ($query) use ($keyword) {
-                $query->where('jenis_pengaduan', 'LIKE', "%{$keyword}%");
-            })->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->latest()->get();
+            return $this->has('penanganan')->where(function ($query) use ($keyword) {
+                $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
+                    ->orWhere('nik', 'LIKE', "%{$keyword}%");
+            })
+                ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])->get();
         } catch (\Exception $e) {
             throw new \Exception('Error in search method: ' . $e->getMessage());
         }
