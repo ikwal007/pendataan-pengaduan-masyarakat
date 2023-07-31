@@ -3,7 +3,7 @@ import LogedLayouts from '@/Layouts/loged-layouts';
 import { useForm, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-const CreatePemohon = (props) => {
+const CreatePemohon = props => {
   const {
     allKecamatan,
     allSeksi,
@@ -31,6 +31,12 @@ const CreatePemohon = (props) => {
 
   const [selectedKecamatan, setSelectedKecamatan] = useState(null);
   const [form, setForm] = useState(false);
+
+  const isDirtyJenisPengaduan = () => {
+    return data.jenis_pengaduan == '' || data.jenis_media_pengaduan == ''
+      ? true
+      : false;
+  };
 
   const handleChangeForm = e => {
     const { name, value, checked, type } = e.target;
@@ -86,7 +92,7 @@ const CreatePemohon = (props) => {
               onChange={handleChangeForm}
               required
             >
-              <option>Jenis Pengaduan</option>
+              <option value={''}>Jenis Pengaduan :</option>
               {allJenisPengaduanAndException.semuaJenisPengaduan.map(
                 (data, i) => {
                   return (
@@ -99,46 +105,51 @@ const CreatePemohon = (props) => {
             </select>
           </div>
 
-          <div className='form-control w-full max-w-xs'>
-            <label className='label'>
-              <span className='label-text'>Jenis Media Pengaduan</span>
-            </label>
-            <select
-              name='jenis_media_pengaduan'
-              className='select select-bordered'
-              onChange={handleChangeForm}
-              required
-            >
-              <option>Jenis Media Pengaduan</option>
-              {allJenisMediaPengaduan.map((data, i) => {
-                return (
-                  <option key={i} value={data.id}>
-                    {data.nama_media_pengaduan}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className='form-control w-full max-w-xs'>
-            <label className='label'>
-              <span className='label-text'>Nama Pemohon</span>
-            </label>
-            <input
-              name='nama_pemohon'
-              onChange={handleChangeForm}
-              value={data.nama_pemohon}
-              type='text'
-              placeholder='Masukkan Nama Pemohon'
-              className='input input-bordered w-full max-w-xs'
-              required
-            />
-            {errors.nama_pemohon ? (
+          {data.jenis_pengaduan !== '' ? (
+            <div className='form-control w-full max-w-xs'>
               <label className='label'>
-                <span className='label-text-alt'>{errors.nama_pemohon}</span>
+                <span className='label-text'>Jenis Media Pengaduan</span>
               </label>
-            ) : null}
-          </div>
-          {form == true ? (
+              <select
+                name='jenis_media_pengaduan'
+                className='select select-bordered'
+                onChange={handleChangeForm}
+                required
+              >
+                <option value={''}>Jenis Media Pengaduan :</option>
+                {allJenisMediaPengaduan.map((data, i) => {
+                  return (
+                    <option key={i} value={data.id}>
+                      {data.nama_media_pengaduan}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          ) : null}
+
+          {data.jenis_pengaduan !== '' ? (
+            <div className='form-control w-full max-w-xs'>
+              <label className='label'>
+                <span className='label-text'>Nama Pemohon</span>
+              </label>
+              <input
+                name='nama_pemohon'
+                onChange={handleChangeForm}
+                value={data.nama_pemohon}
+                type='text'
+                placeholder='Masukkan Nama Pemohon'
+                className='input input-bordered w-full max-w-xs'
+                required
+              />
+              {errors.nama_pemohon ? (
+                <label className='label'>
+                  <span className='label-text-alt'>{errors.nama_pemohon}</span>
+                </label>
+              ) : null}
+            </div>
+          ) : null}
+          {form == true && data.jenis_pengaduan !== '' ? (
             <div className='form-control w-full max-w-xs'>
               <label className='label'>
                 <span className='label-text'>No KTP</span>
@@ -160,7 +171,7 @@ const CreatePemohon = (props) => {
             </div>
           ) : null}
 
-          {form == true ? (
+          {form == true && data.jenis_pengaduan !== '' ? (
             <div className='form-control w-full max-w-xs'>
               <label className='label'>
                 <span className='label-text'>No Hak</span>
@@ -181,7 +192,7 @@ const CreatePemohon = (props) => {
               ) : null}
             </div>
           ) : null}
-          {form == true ? (
+          {form == true && data.jenis_pengaduan !== '' ? (
             <div className='form-control w-full max-w-xs'>
               <label className='label'>
                 <span className='label-text'>Jenis Sertifikat</span>
@@ -203,20 +214,22 @@ const CreatePemohon = (props) => {
               </select>
             </div>
           ) : null}
-          <div className='form-control w-full'>
-            <label className='label'>
-              <span className='label-text'>Keterangan Laporan Pengaduan</span>
-            </label>
-            <textarea
-              name='keterangan_laporan_pengaduan'
-              className='textarea textarea-bordered h-24'
-              placeholder='Keterangan Laporan Pengaduan'
-              value={data.keterangan_laporan_pengaduan}
-              onChange={handleChangeForm}
-              required
-            />
-          </div>
-          {form == true ? (
+          {data.jenis_pengaduan !== '' ? (
+            <div className='form-control w-full'>
+              <label className='label'>
+                <span className='label-text'>Keterangan Laporan Pengaduan</span>
+              </label>
+              <textarea
+                name='keterangan_laporan_pengaduan'
+                className='textarea textarea-bordered h-24'
+                placeholder='Keterangan Laporan Pengaduan'
+                value={data.keterangan_laporan_pengaduan}
+                onChange={handleChangeForm}
+                required
+              />
+            </div>
+          ) : null}
+          {form == true && data.jenis_pengaduan !== '' ? (
             <div className='form-control flex-row flex-wrap justify-between'>
               <span className='label-text w-full'>Penanganan</span>
               {allSeksi.map((data, i) => {
@@ -238,7 +251,7 @@ const CreatePemohon = (props) => {
             </div>
           ) : null}
 
-          {form == true ? (
+          {form == true && data.jenis_pengaduan !== '' ? (
             <div className='form-control w-full max-w-xs'>
               <label className='label'>
                 <span className='label-text'>Kecamatan</span>
@@ -260,7 +273,7 @@ const CreatePemohon = (props) => {
               </select>
             </div>
           ) : null}
-          {form == true ? (
+          {form == true && data.jenis_pengaduan !== '' ? (
             <div className='form-control w-full max-w-xs'>
               <label className='label'>
                 <span className='label-text'>Kelurahan</span>
@@ -278,13 +291,15 @@ const CreatePemohon = (props) => {
             </div>
           ) : null}
           <div className='w-full'>
-            <button
-              className='mt-3 btn btn-success text-base-100'
-              type='submit'
-              disabled={processing}
-            >
-              Upload
-            </button>
+            {data.jenis_pengaduan !== '' ? (
+              <button
+                className='mt-3 btn btn-success text-base-100'
+                type='submit'
+                disabled={processing || isDirtyJenisPengaduan()}
+              >
+                Upload
+              </button>
+            ) : null}
           </div>
         </form>
       </section>
