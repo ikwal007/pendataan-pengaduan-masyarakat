@@ -101,7 +101,7 @@ const Dashboard = () => {
                 <span>{flash.message}</span>
               </div>
             )}
-            <div className='flex justify-end'>
+            <div className='flex justify-end mb-2'>
               <div className='join'>
                 <input
                   type='text'

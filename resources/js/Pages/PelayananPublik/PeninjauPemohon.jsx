@@ -1,23 +1,31 @@
-import { SearchForTable } from '@/Components/Search/SearchForTable';
 import Seo from '@/Components/Seo/Seo';
 import Table from '@/Components/Tabel/Tabel';
 import LogedLayouts from '@/Layouts/loged-layouts';
 import { Link, usePage } from '@inertiajs/react';
-import { BiCheck } from 'react-icons/bi';
+import { BiCheck, BiEraser } from 'react-icons/bi';
 import React, { useDeferredValue, useEffect, useState } from 'react';
 
 const PeninjauwanPemohon = () => {
   const { flash, dataForTable } = usePage().props;
-  const [ keyword, setKeyword ] = useState();
+  const [ keyword, setKeyword ] = useState('');
   const [results, setResults] = useState([]);
   const [showFlash, setShowFlash] = useState(false);
   const deferredSearch = useDeferredValue(keyword);
 
+  const handleInputChange = e => {
+    setKeyword(e.target.value);
+  };
+
+  const handleInputClear = () => {
+    setKeyword('');
+    setResults([]);
+  };
+
   useEffect(() => {
-    if (deferredSearch !== '') {
-      search();
-    } else {
+    if (deferredSearch.trim() == '') {
       setResults([]);
+    } else {
+      search();
     }
   }, [deferredSearch]);
 
@@ -32,7 +40,7 @@ const PeninjauwanPemohon = () => {
   }, [flash.message]);
 
   const search = () => {
-    const apiUrl = `/api/pemohons/search?keyword=${deferredSearch}`;
+    const apiUrl = `/api/pemohon/belum-terhubung-penanganan?keyword=${deferredSearch}`;
 
     axios
       .get(apiUrl)
@@ -47,6 +55,44 @@ const PeninjauwanPemohon = () => {
 
   console.log(dataForTable);
 
+  const rowTableByStatusComponents = data => {
+    return (
+      <>
+        {data.map((data, i) => {
+          return (
+            <Table.Tr key={i}>
+              <Table.Td>{i + 1}</Table.Td>
+              <Table.Td>{data.nama_pemohon}</Table.Td>
+              <Table.Td>{data.nik}</Table.Td>
+              <Table.Td>{data.status.status}</Table.Td>
+              <Table.Td>
+                <Table.Link href={route(`pelayanan-publik.show`, [data.id])}>
+                  Show Detail
+                </Table.Link>
+              </Table.Td>
+            </Table.Tr>
+          );
+        })}
+      </>
+    );
+  };
+
+  let selectedData;
+  let prevLink;
+  let nextLink;
+
+  if (Array.isArray(results) && results.length === 0) {
+    selectedData = dataForTable.data;
+    prevLink = dataForTable.prev_page_url;
+    nextLink = dataForTable.next_page_url;
+  } else {
+    selectedData = results;
+    prevLink = '';
+    nextLink = '';
+  }
+
+  console.log(dataForTable);
+
   return (
     <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
       <div className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between'>
@@ -57,7 +103,23 @@ const PeninjauwanPemohon = () => {
               <span>{flash.message}</span>
             </div>
           )}
-          <SearchForTable keyword={keyword} setKeyword={setKeyword} />
+          <div className='flex justify-end mb-2'>
+              <div className='join'>
+                <input
+                  type='text'
+                  placeholder='Search...'
+                  value={keyword}
+                  onChange={handleInputChange}
+                  className='input input-bordered join-item input-success w-full max-w-xs'
+                />
+                <button
+                  className='btn btn-success join-item rounded-r-full'
+                  onClick={handleInputClear}
+                >
+                  <BiEraser className='text-white w-6 h-6' />
+                </button>
+              </div>
+            </div>
           <Table results={results} dataForTable={dataForTable.data}>
             <Table.Thead>
               <Table.Tr>
@@ -68,78 +130,12 @@ const PeninjauwanPemohon = () => {
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-              {/* {dataForTable.data.length > 0 ? (
-                dataForTable.data.map((data, i) => {
-                  return (
-                    <Table.Tr key={i}>
-                      <Table.Td>{i + 1}</Table.Td>
-                      <Table.Td>{data.no_hak}</Table.Td>
-                      <Table.Td>{data.status.status}</Table.Td>
-                      <Table.Td>
-                        <Table.Link
-                          href={route(
-                            `pelayanan-publik.peninjauan-pemohon-edit`,
-                            [data.id]
-                          )}
-                        >
-                          Tambah penangnan
-                        </Table.Link>
-                      </Table.Td>
-                    </Table.Tr>
-                  );
-                })
+            {selectedData.length > 0 ? (
+                rowTableByStatusComponents(selectedData)
               ) : (
                 <Table.Tr>
-                  <Table.Td className='capitalize' colSpan={5} align={`center`}>
-                    Data pemohon tidak tersedia
-                  </Table.Td>
-                </Table.Tr>
-              )} */}
-
-              {results.length > 0 ? (
-                results.map((data, i) => {
-                  return (
-                    <Table.Tr key={i}>
-                      <Table.Td>{i + 1}</Table.Td>
-                      <Table.Td>{data.no_hak}</Table.Td>
-                      <Table.Td>{data.status.status}</Table.Td>
-                      <Table.Td>
-                        <Table.Link
-                          href={route(
-                            `pelayanan-publik.peninjauan-pemohon-edit`,
-                            [data.id]
-                          )}
-                        >
-                          Tambah penangnan
-                        </Table.Link>
-                      </Table.Td>
-                    </Table.Tr>
-                  );
-                })
-              ) : dataForTable.data.length > 0 ? (
-                dataForTable.data.map((data, i) => {
-                  return (
-                    <Table.Tr key={i}>
-                      <Table.Td>{i + 1}</Table.Td>
-                      <Table.Td>{data.no_hak}</Table.Td>
-                      <Table.Td>{data.status.status}</Table.Td>
-                      <Table.Td>
-                        <Table.Link
-                          href={route(
-                            `pelayanan-publik.peninjauan-pemohon-edit`,
-                            [data.id]
-                          )}
-                        >
-                          Tambah penangnan
-                        </Table.Link>
-                      </Table.Td>
-                    </Table.Tr>
-                  );
-                })
-              ) : (
-                <Table.Tr>
-                  <Table.Td className='capitalize' colSpan={4} align={`center`}>
-                    Data pemohon tidak tersedia
+                  <Table.Td className='capitalize' colSpan={5} align='center'>
+                    data atas nama anda tidak ada
                   </Table.Td>
                 </Table.Tr>
               )}
@@ -148,16 +144,16 @@ const PeninjauwanPemohon = () => {
           {results.length === 0 && (
             <div className='join grid grid-cols-2 max-w-[250px] mt-3'>
               <Link
-                href={dataForTable.prev_page_url}
+                href={prevLink}
                 className='join-item btn btn-xs btn-outline'
-                disabled={!dataForTable.prev_page_url}
+                disabled={!prevLink}
               >
                 Previous page
               </Link>
               <Link
-                href={dataForTable.next_page_url}
+                href={nextLink}
                 className='join-item btn btn-xs btn-outline'
-                disabled={!dataForTable.next_page_url}
+                disabled={!nextLink}
               >
                 Next
               </Link>

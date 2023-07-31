@@ -123,9 +123,11 @@ class Pemohon extends Model
      * 
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection
      */
-    public function getAllPeninjauPemohon($perPage = 10)
+    public function getAllPeninjauPemohon($perPage = 5)
     {
-        return $this->doesntHave('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->paginate($perPage);
+        return $this->whereHas('jenisPengaduan', function($query) {
+            $query->where('jenis_pengaduan', 'LIKE', "pelayanan pertanahan");
+        })->doesntHave('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->paginate($perPage);
     }
 
     /**
