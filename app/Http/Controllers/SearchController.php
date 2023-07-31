@@ -19,6 +19,16 @@ class SearchController extends Controller
 
         return response()->json($results);
     }
+    
+    public function searchPemohonPeninjau(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        $pemohon = new Pemohon();
+        $results = $pemohon->liveSearchPemohonPeninjau($keyword);
+
+        return response()->json($results);
+    }
 
     public function searchPenanganan(Request $request)
     {

@@ -125,7 +125,7 @@ class Pemohon extends Model
      */
     public function getAllPeninjauPemohon($perPage = 5)
     {
-        return $this->whereHas('jenisPengaduan', function($query) {
+        return $this->whereHas('jenisPengaduan', function ($query) {
             $query->where('jenis_pengaduan', 'LIKE', "pelayanan pertanahan");
         })->doesntHave('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->paginate($perPage);
     }
@@ -157,6 +157,29 @@ class Pemohon extends Model
                     ->orWhere('nik', 'LIKE', "%{$keyword}%");
             })
                 ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])->get();
+        } catch (\Exception $e) {
+            throw new \Exception('Error in search method: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Cari catatan pemohon berdasarkan kata kunci yang belum memiliki penanganan.
+     *
+     * @param  string  $keyword
+     * @return \Illuminate\Database\Eloquent\Builder
+     * @throws \Exception
+     */
+    public function liveSearchPemohonPeninjau($keyword)
+    {
+        try {
+            return $this->where(function ($query) use ($keyword) {
+                $query->where('nama_pemohon', 'LIKE', "%{$keyword}%")
+                    ->orWhere('nik', 'LIKE', "%{$keyword}%");
+            })
+                ->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'penanganan', 'status'])->whereDoesntHave('penanganan')
+                ->whereHas('jenisPengaduan', function ($query) {
+                    $query->where('jenis_pengaduan', 'pelayanan pertanahan');
+                })->get();
         } catch (\Exception $e) {
             throw new \Exception('Error in search method: ' . $e->getMessage());
         }

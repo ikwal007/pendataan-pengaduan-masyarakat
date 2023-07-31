@@ -40,7 +40,7 @@ const PeninjauwanPemohon = () => {
   }, [flash.message]);
 
   const search = () => {
-    const apiUrl = `/api/pemohon/belum-terhubung-penanganan?keyword=${deferredSearch}`;
+    const apiUrl = `/api/pemohons/belum-terhubung-penanganan?keyword=${deferredSearch}`;
 
     axios
       .get(apiUrl)
@@ -53,7 +53,7 @@ const PeninjauwanPemohon = () => {
       });
   };
 
-  console.log(dataForTable);
+  console.log(results);
 
   const rowTableByStatusComponents = data => {
     return (
