@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pelayanan\CountController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,4 @@ Route::get('/pemohons/search', [SearchController::class, 'searchPemohon']);
 Route::get('/pemohons/belum-terhubung-penanganan', [SearchController::class, 'searchPemohonPeninjau']);
 Route::get('/penanganan/search', [SearchController::class, 'searchPenanganan']);
 Route::get('/user/search', [SearchController::class, 'searchUser']);
+Route::get('/count/peninjauan-pemohon', [CountController::class, 'notifPeninjauanPemohon']);

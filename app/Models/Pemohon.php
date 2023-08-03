@@ -131,6 +131,22 @@ class Pemohon extends Model
     }
 
     /**
+     * Dapatkan semua count pemohon yang belum terkait dengan penanganan
+     * 
+     * @return int
+     */
+    public function countNotifPeninjauanPemohon($perPage = 5)
+    {
+        try {
+            return $this->whereHas('jenisPengaduan', function ($query) {
+                $query->where('jenis_pengaduan', 'LIKE', "pelayanan pertanahan");
+            })->doesntHave('penanganan')->with(['jenisPengaduan', 'jenisMediaPengaduan', 'jenisSertifikat', 'kecamatan', 'desa', 'status', 'penanganan'])->count();
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+
+    /**
      * Dapatkan informasi detail dari catatan pemohon.
      *
      * @param  int  $id

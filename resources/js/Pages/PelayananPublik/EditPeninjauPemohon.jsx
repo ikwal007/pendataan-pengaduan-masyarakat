@@ -29,18 +29,13 @@ const EditPeninjauPemohon = () => {
     patch(route('pelayanan-publik.peninjauan-pemohon-update', dataForShowDetail.id))
   };
 
-  const goBack = () => {
-    router.visit('/pelayanan-publik/dashboard');
-  };
-
-  console.log(dataForShowDetail);
   return (
     <>
       <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
         <div className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between'>
           <div className='overflow-x-auto w-full'>
             <form onSubmit={submit}>
-              <ShowDetail action={goBack}>
+              <ShowDetail patch={'/pelayanan-publik/peninjauan-pemohon'}>
                 <ShowDetail.Head>
                   <ShowDetail.H3 children={`Informasi Data Pemohon`} />
                   <ShowDetail.P children={`Edit pemohon dan laporan`} />

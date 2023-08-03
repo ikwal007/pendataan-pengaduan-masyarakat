@@ -53,8 +53,6 @@ const PeninjauwanPemohon = () => {
       });
   };
 
-  console.log(results);
-
   const rowTableByStatusComponents = data => {
     return (
       <>
@@ -66,8 +64,8 @@ const PeninjauwanPemohon = () => {
               <Table.Td>{data.nik}</Table.Td>
               <Table.Td>{data.status.status}</Table.Td>
               <Table.Td>
-                <Table.Link href={route(`pelayanan-publik.show`, [data.id])}>
-                  Show Detail
+                <Table.Link href={route(`pelayanan-publik.peninjauan-pemohon-edit`, [data.id])}>
+                  Tambahkan Penanganan
                 </Table.Link>
               </Table.Td>
             </Table.Tr>
@@ -90,8 +88,6 @@ const PeninjauwanPemohon = () => {
     prevLink = '';
     nextLink = '';
   }
-
-  console.log(dataForTable);
 
   return (
     <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
@@ -135,7 +131,7 @@ const PeninjauwanPemohon = () => {
               ) : (
                 <Table.Tr>
                   <Table.Td className='capitalize' colSpan={5} align='center'>
-                    data atas nama anda tidak ada
+                    tidak ada data terkait untuk sekarang
                   </Table.Td>
                 </Table.Tr>
               )}

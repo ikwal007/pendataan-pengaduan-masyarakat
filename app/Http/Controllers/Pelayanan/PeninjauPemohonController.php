@@ -59,6 +59,6 @@ class PeninjauPemohonController extends Controller
             }
         };
 
-        return redirect('/pelayanan-publik/dashboard')->with('message', 'Edit Data Success');
+        return redirect('/pelayanan-publik/peninjauan-pemohon')->with('message', 'Edit Data Success');
     }
 }

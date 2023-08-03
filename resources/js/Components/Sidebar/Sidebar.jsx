@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdClose, MdDashboard, MdOutlinePostAdd } from 'react-icons/md';
 import { Link, usePage } from '@inertiajs/react';
 
 import UserDropdown from '../Dropdowns/UserDropdown';
+import axios from 'axios';
+
+const API_URL = '/api/count/peninjauan-pemohon';
 
 export default function Sidebar() {
-  const [collapseShow, setCollapseShow] = React.useState('hidden');
+  const [collapseShow, setCollapseShow] = useState(false);
   const { auth } = usePage().props;
+  const [notificationCount, setNotificationCount] = useState(0);
 
   const toggleCollapse = () => {
-    setCollapseShow(prevState =>
-      prevState === 'hidden' ? 'bg-white m-2 py-3 px-6' : 'hidden'
-    );
+    setCollapseShow(prevState => !prevState);
   };
+
+  const fetchNotificationCount = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      const data = response.data;
+      setNotificationCount(data);
+    } catch (error) {
+      console.error('Error fetching notification count:', error);
+    }
+  };
+
+  useEffect(() => {
+    const delay = 1000; // 1 detik (1000 milidetik)
+
+    const timerId = setTimeout(fetchNotificationCount, delay);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [auth.user.role]);
 
   return (
     <>
@@ -160,17 +182,30 @@ export default function Sidebar() {
                   <li className='items-center'>
                     <Link href={route('pelayanan-publik.peninjauan-pemohon')}>
                       <span
-                        className={`flex text-xs uppercase py-3 font-bold ${
-                          route().current('pelayanan-publik.peninjauan-pemohon') ||
-                          route().current('pelayanan-publik.peninjauan-pemohon-edit')
+                        className={`flex text-xs uppercase py-3 font-bold indicator ${
+                          route().current(
+                            'pelayanan-publik.peninjauan-pemohon'
+                          ) ||
+                          route().current(
+                            'pelayanan-publik.peninjauan-pemohon-edit'
+                          )
                             ? 'text-success hover:text-success hover:opacity-50'
                             : 'text-black hover:text-black hover:opacity-50'
                         }`}
                       >
+                        {notificationCount != 0 && (
+                          <span className='indicator-item badge badge-success'>
+                            {notificationCount}
+                          </span>
+                        )}
                         <MdOutlinePostAdd
                           className={`mr-2 text-sm ${
-                            route().current('pelayanan-publik.peninjauan-pemohon') ||
-                            route().current('pelayanan-publik.peninjauan-pemohon-edit')
+                            route().current(
+                              'pelayanan-publik.peninjauan-pemohon'
+                            ) ||
+                            route().current(
+                              'pelayanan-publik.peninjauan-pemohon-edit'
+                            )
                               ? 'opacity-75'
                               : 'text-black'
                           }`}

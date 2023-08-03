@@ -1,16 +1,17 @@
+import { Link } from '@inertiajs/react';
 import React, { createContext } from 'react';
 import { AiFillCaretLeft } from 'react-icons/ai';
 
 const ShowDetailContext = createContext();
 
-const ShowDetail = ({ action, children }) => {
+const ShowDetail = ({ patch, children }) => {
   return (
-    <ShowDetailContext.Provider value={action}>
+    <ShowDetailContext.Provider value={patch}>
       <section className='py-10 bg-gray-50 sm:py-16 lg:py-12'>
         <div className='max-w-6xl px-4 mx-auto sm:px-6 lg:px-8'>
-          <button onClick={action} className='flex items-center mb-8'>
+          <Link href={patch} className='flex items-center mb-8'>
             <AiFillCaretLeft /> Kembali
-          </button>
+          </Link>
           <div>{children}</div>
         </div>
       </section>

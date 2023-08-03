@@ -6,15 +6,12 @@ import React from 'react';
 
 const ShowDetailPage = () => {
   const { dataForShowDetail } = usePage().props;
-  const goBack = () => {
-    router.visit('/masyarakat/dashboard');
-  };
   return (
     <>
       <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
         <div className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between'>
           <div className='overflow-x-auto w-full'>
-            <ShowDetail action={goBack}>
+            <ShowDetail patch={'/masyarakat/dashboard'}>
               <ShowDetail.Head>
                 <ShowDetail.H3 children={`Informasi Data Pemohon`} />
                 <ShowDetail.P children={`Detail pemohon dan laporan`} />
