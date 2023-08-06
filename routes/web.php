@@ -5,6 +5,7 @@ use App\Http\Controllers\Masyarakat\DashboardController as MasyarakatDashboardCo
 use App\Http\Controllers\Pelayanan\DashboardController as PelayananDashboardController;
 use App\Http\Controllers\Pelayanan\PeninjauPemohonController;
 use App\Http\Controllers\PemohonController;
+use App\Http\Controllers\Profile\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seksi\DashboardController as SeksiDashboardController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
@@ -33,6 +34,13 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    // profile
+    Route::prefix('profile')->group(function () {
+        Route::controller(UserProfileController::class)->group(function() {
+            Route::get('/{id}', 'show')->name('profile.index');
+        });
+    });
+
     // for super_admin
     Route::middleware(['role:Super_Admin'])->group(function () {
         Route::prefix('super-admin')->group(function () {

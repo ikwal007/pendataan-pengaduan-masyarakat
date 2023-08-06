@@ -4,24 +4,55 @@ import React from 'react';
 const GuestLayouts = ({ children }) => {
   return (
     <div className='relative w-full min-h-screen'>
-      <div className='navbar bg-transparent absolute flex-col md:flex-row'>
-        <div className='flex-1 justify-center md:justify-start'>
-          <p className='btn btn-ghost normal-case text-xl text-base-100 hover:bg-transparent hover:text-base-300'>
+      <div className='navbar absolute text-base-100'>
+        <div className='navbar-start'>
+          <div className='dropdown'>
+            <label tabIndex={0} className='btn btn-ghost lg:hidden'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-5 w-5'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                  d='M4 6h16M4 12h8m-8 6h16'
+                />
+              </svg>
+            </label>
+            <ul
+              tabIndex={0}
+              className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-neutral'
+            >
+              <li>
+                <Link href={'/register'}>
+                  Register
+                </Link>
+              </li>
+              <li>
+                <Link href={'/login'}>
+                  Login
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <p className='btn btn-ghost normal-case text-lg'>
             Pendataan Pengaduan Masyarakat
           </p>
         </div>
-        <div className='flex-none'>
-          <ul className='menu menu-horizontal px-1 space-x-6'>
+        <div className='navbar-center '></div>
+        <div className='navbar-end hidden lg:flex'>
+          <ul className='menu menu-horizontal px-1'>
             <li>
-              <Link
-                href={'/register'}
-                className='btn btn-success text-base-200'
-              >
+              <Link href={'/register'} className=''>
                 Register
               </Link>
             </li>
             <li>
-              <Link href={'/login'} className='btn btn-success text-base-200'>
+              <Link href={'/login'} className=''>
                 Login
               </Link>
             </li>

@@ -50,24 +50,23 @@ const EditPassword = (props) => {
                         </Link>
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">
-                                Update Password
+                                Ubah Kata Sandi
                             </h2>
 
                             <p className="mt-1 text-sm text-gray-600">
-                                Ensure account is using a long, random password
-                                to stay secure.
+                            Pastikan akun menggunakan kata sandi acak yang panjang agar tetap aman.
                             </p>
                         </header>
                         <form onSubmit={submit}>
                             <div className="form-control w-full max-w-xs">
                                 <label className="label">
                                     <span className="label-text">
-                                        New Password
+                                        Kata sandi baru
                                     </span>
                                 </label>
                                 <input
                                     type="password"
-                                    placeholder="New Password"
+                                    placeholder="Kata sandi baru"
                                     className="input input-bordered input-success w-full max-w-xs"
                                     name="new_password"
                                     value={data.new_password}
@@ -85,12 +84,12 @@ const EditPassword = (props) => {
                             <div className="form-control w-full max-w-xs">
                                 <label className="label">
                                     <span className="label-text">
-                                        Re-Password
+                                        Ulang kata sandi baru
                                     </span>
                                 </label>
                                 <input
                                     type="password"
-                                    placeholder="Re-Password"
+                                    placeholder="Ulang kata sandi baru"
                                     className="input input-bordered input-success w-full max-w-xs"
                                     name="re_password"
                                     value={data.re_password}
