@@ -28,14 +28,10 @@ const GuestLayouts = ({ children }) => {
               className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-neutral'
             >
               <li>
-                <Link href={'/register'}>
-                  Register
-                </Link>
+                <Link href={'/register'}>Register</Link>
               </li>
               <li>
-                <Link href={'/login'}>
-                  Login
-                </Link>
+                <Link href={'/login'}>Login</Link>
               </li>
             </ul>
           </div>
@@ -52,7 +48,7 @@ const GuestLayouts = ({ children }) => {
               </Link>
             </li>
             <li>
-              <Link href={'/login'} className=''>
+              <Link href={'/login'} className='bg-success hover:text-success transition duration-700 ease-in-out'>
                 Login
               </Link>
             </li>
@@ -61,12 +57,6 @@ const GuestLayouts = ({ children }) => {
       </div>
       <main>{children}</main>
       <footer className='footer footer-center p-10 bg-gradient-to-r from-[#355D32] via-[#64903B] to-[#355D32] text-base-100'>
-        <div className='grid grid-flow-col gap-4'>
-          <a className='link link-hover'>About us</a>
-          <a className='link link-hover'>Contact</a>
-          <a className='link link-hover'>Jobs</a>
-          <a className='link link-hover'>Press kit</a>
-        </div>
         <div>
           <div className='grid grid-flow-col gap-4'>
             <a>

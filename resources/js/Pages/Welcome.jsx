@@ -23,7 +23,7 @@ export default function Welcome(props) {
                 bahagia selalu
               </p>
               <Link
-                href='/pengaduan-masyarakat'
+                href='/login'
                 className='btn btn-success text-base-100 capitalize'
               >
                 lapor pengaduan sekarang
