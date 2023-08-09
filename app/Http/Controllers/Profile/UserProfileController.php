@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pemohon;
+use App\Models\Penanganan;
+use App\Models\Seksi;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class UserProfileController extends Controller
@@ -37,7 +42,33 @@ class UserProfileController extends Controller
      */
     public function show(string $id)
     {
-        return Inertia::render('Profile/Show');
+        $pemohon = new Pemohon();
+        $user = new User();
+        $penanganan = new Penanganan();
+        $auth = auth()->user();
+
+        $dataForStats = (object) array();
+
+
+        if ($user->getUserRole($auth->id) == 'Super_Admin') {
+            $dataForStats = $user->getAllUserInfoCount();
+        }
+
+        if ($user->getUserRole($auth->id) == 'Pelayanan_Publik') {
+            $dataForStats = $pemohon->getCountAllPemohons();
+        }
+
+        if ($user->getUserRole($auth->id) == 'Seksi') {
+            $seksi = new Seksi();
+            $findSeksi = $seksi->findSeksi($user);
+            $dataForStats = $penanganan->getCountAllPenanganan($findSeksi->id);
+        }
+
+        if ($user->getUserRole($auth->id) == 'Masyarakat') {
+            $dataForStats = $pemohon->getCountAllPemohons($auth->nik);
+        }
+
+        return Inertia::render('Profile/Show', compact(['dataForStats']));
     }
 
     /**

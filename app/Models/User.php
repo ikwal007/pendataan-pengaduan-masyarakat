@@ -72,6 +72,17 @@ class User extends Authenticatable
     }
 
     /**
+     * Get role user
+     * 
+     * @param string $id
+     * @return string
+     */
+    public function getUserRole ($id)
+    {
+        return $this->find($id)->modelHasRole->role->name;
+    }
+
+    /**
      * Get the count of users by role.
      *
      * @param  string  $roleName
