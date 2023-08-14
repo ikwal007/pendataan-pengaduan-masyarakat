@@ -1,14 +1,15 @@
 import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
 import model1 from '/public/assets/imgs/model1.jpg';
+import { FaUserCircle } from 'react-icons/fa';
 const UserDropdown = () => {
   const { auth } = usePage().props;
   return (
     <>
       <div className='dropdown dropdown-end'>
         <label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-          <div className='w-10 rounded-full'>
-            <img src={model1} />
+          <div className='w-10 rounded-full ring ring-white ring-offset-[#355D32] ring-offset-2'>
+            <FaUserCircle className='w-10 h-10 text-base-100' />
           </div>
         </label>
         <ul

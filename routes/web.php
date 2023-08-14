@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('profile')->group(function () {
         Route::controller(UserProfileController::class)->group(function() {
             Route::get('/{id}', 'show')->name('profile.index');
+            Route::get('/{id}/edit', 'edit')->name('profile.edit');
+            Route::post('/{id}', 'update')->name('profile.update');
         });
     });
 
@@ -91,16 +93,6 @@ Route::middleware(['auth'])->group(function () {
             });
         });
     });
-});
-
-
-Route::get('/admin/pemohon', [PemohonController::class, 'index'])->name('admin.pemohon')->middleware(['auth', 'verified', 'role:Super_Admin']);
-Route::post('/admin/pemohon', [PemohonController::class, 'store'])->name('admin.pemohon')->middleware(['auth', 'verified', 'role:Super_Admin']);
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__ . '/auth.php';
