@@ -3,32 +3,36 @@ import axios from 'axios';
 
 const useQRCode = () => {
   const [qrCode, setQRCode] = useState('');
-  const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [qrLoading, setQrLoading] = useState(true);
+  const [qrError, setQrError] = useState('');
 
   useEffect(() => {
     const generateQRCode = async () => {
       try {
-        const response = await axios.post('/api/generate-qr', {
-          headers: {
-            Authorization: 'TOKEN',
-          },
-        });
+        const response = await axios.post(
+          'https://api.fonnte.com/qr',
+          {},
+          {
+            headers: {
+              Authorization: 'Dg9BpT1Tder@_ZeBfPJa',
+            },
+          }
+        );
 
         const { url } = response.data;
 
         setQRCode(url);
-        setLoading(false);
+        setQrLoading(false);
       } catch (error) {
-        setError('Failed to generate QR code');
-        setLoading(false);
+        setQrError('Failed to generate QR code');
+        setQrLoading(false);
       }
     };
 
     generateQRCode();
   }, []);
 
-  return { qrCode, isLoading, error };
+  return { qrCode, qrLoading, qrError };
 };
 
 export default useQRCode;
