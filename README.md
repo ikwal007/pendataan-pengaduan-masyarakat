@@ -83,4 +83,4 @@ Aplikasi ini dilisensikan di bawah Lisensi MIT. Lihat berkas [LICENSE](LICENSE) 
 
 ## Kontak
 
-Jika Anda memiliki pertanyaan atau masukan, Anda dapat menghubungi tim pengembangan melalui email di [alamat_email@example.com](muhammadikwalr@gmail.com).
+Jika Anda memiliki pertanyaan atau masukan, Anda dapat menghubungi tim pengembangan melalui email di [muhammadikwalr@gmail.com](muhammadikwalr@gmail.com).
