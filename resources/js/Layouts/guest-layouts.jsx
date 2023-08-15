@@ -1,7 +1,15 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
 
 const GuestLayouts = ({ children }) => {
+  const { auth } = usePage().props;
+
+  let url = '';
+  if (auth && auth.user) {
+    url = menentukanDashboardUrl(auth.user.role);
+  }
+  
+  console.log(auth);
   return (
     <div className='relative w-full min-h-screen'>
       <div className='navbar absolute text-base-100'>
@@ -23,17 +31,28 @@ const GuestLayouts = ({ children }) => {
                 />
               </svg>
             </label>
-            <ul
-              tabIndex={0}
-              className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-neutral'
-            >
-              <li>
-                <Link href={'/register'}>Register</Link>
-              </li>
-              <li>
-                <Link href={'/login'}>Login</Link>
-              </li>
-            </ul>
+            {!auth ? (
+              <ul
+                tabIndex={0}
+                className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-neutral'
+              >
+                <li>
+                  <Link href={'/register'}>Register</Link>
+                </li>
+                <li>
+                  <Link href={'/login'}>Login</Link>
+                </li>
+              </ul>
+            ) : (
+              <ul
+                tabIndex={0}
+                className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-neutral'
+              >
+                <li>
+                  <Link href={url}>Dashboard</Link>
+                </li>
+              </ul>
+            )}
           </div>
           <p className='btn btn-ghost normal-case text-lg'>
             Pendataan Pengaduan Masyarakat
@@ -41,18 +60,27 @@ const GuestLayouts = ({ children }) => {
         </div>
         <div className='navbar-center '></div>
         <div className='navbar-end hidden lg:flex'>
-          <ul className='menu menu-horizontal px-1'>
+          {!auth ? <ul className='menu menu-horizontal px-1'>
             <li>
               <Link href={'/register'} className=''>
                 Register
               </Link>
             </li>
             <li>
-              <Link href={'/login'} className='bg-success hover:text-success transition duration-700 ease-in-out'>
+              <Link
+                href={'/login'}
+                className='bg-success hover:text-success transition duration-700 ease-in-out'
+              >
                 Login
               </Link>
             </li>
-          </ul>
+          </ul>: <ul className='menu menu-horizontal px-1'>
+            <li>
+              <Link href={url} className=''>
+                Dashboard
+              </Link>
+            </li>
+          </ul>}
         </div>
       </div>
       <main>{children}</main>
@@ -109,5 +137,20 @@ const GuestLayouts = ({ children }) => {
     </div>
   );
 };
+
+function menentukanDashboardUrl(role){
+  switch (role) {
+    case 'Super_Admin':
+      return '/super-admin/dashboard';
+    case 'Pelayanan_Publik':
+      return '/pelayanan-publik/dashboard';
+    case 'Seksi':
+      return '/seksi/dashboard';
+    case 'Masyarakat':
+      return '/masyarakat/dashboard';
+    default:
+      return '/';
+  }
+}
 
 export default GuestLayouts;

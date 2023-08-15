@@ -8,6 +8,7 @@ use App\Http\Controllers\PemohonController;
 use App\Http\Controllers\Profile\UserProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seksi\DashboardController as SeksiDashboardController;
+use App\Http\Controllers\SuperAdmin\ChatWhatsappController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,9 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/dashboard', 'index')->name('super-admin.index');
                 Route::get('/edit-user/{id}', 'edit')->name('super-admin.edit');
                 Route::patch('/update-password/{id}', 'update')->name('super-admin.update');
+            });
+            Route::controller(ChatWhatsappController::class)->group(function () {
+                Route::get('/status/whatsapp', 'index')->name('super-admin.whatsapp-index');
             });
         });
     });

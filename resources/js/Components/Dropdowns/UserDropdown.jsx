@@ -9,7 +9,15 @@ const UserDropdown = () => {
       <div className='dropdown dropdown-end'>
         <label tabIndex={0} className='btn btn-ghost btn-circle avatar'>
           <div className='w-10 rounded-full ring ring-white ring-offset-[#355D32] ring-offset-2'>
-            <FaUserCircle className='w-10 h-10 text-base-100' />
+            {auth.user.gambar ? (
+              <img
+                src={`http://pendataan-pengaduan-masyarakat.test/${auth.user.gambar}`}
+                alt='Profile'
+                className='w-24 h-24'
+              />
+            ) : (
+              <FaUserCircle className='w-24 h-24 text-[#355D32]' />
+            )}
           </div>
         </label>
         <ul
@@ -21,9 +29,6 @@ const UserDropdown = () => {
               Profile
               <span className='badge'>New</span>
             </Link>
-          </li>
-          <li>
-            <a>Settings</a>
           </li>
           <li>
             <Link href='/logout' method='post' as='button' type='submit'>

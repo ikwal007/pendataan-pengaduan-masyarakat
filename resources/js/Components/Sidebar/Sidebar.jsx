@@ -68,19 +68,39 @@ export default function Sidebar() {
                     <Link href={route('super-admin.index')}>
                       <span
                         className={`flex text-xs uppercase py-3 font-bold ${
-                          route().current('super-admin.*')
+                          route().current('super-admin.index')
                             ? 'text-success hover:text-success hover:opacity-50'
                             : 'text-black hover:text-black hover:opacity-50'
                         }`}
                       >
                         <MdDashboard
                           className={`mr-2 text-sm ${
-                            route().current('super-admin.*')
+                            route().current('super-admin.index')
                               ? 'opacity-75'
                               : 'text-black'
                           }`}
                         />
                         Dashboard
+                      </span>
+                    </Link>
+                  </li>
+                  <li className='items-center'>
+                    <Link href={route('super-admin.whatsapp-index')}>
+                      <span
+                        className={`flex text-xs uppercase py-3 font-bold ${
+                          route().current('super-admin.whatsapp-index')
+                            ? 'text-success hover:text-success hover:opacity-50'
+                            : 'text-black hover:text-black hover:opacity-50'
+                        }`}
+                      >
+                        <MdDashboard
+                          className={`mr-2 text-sm ${
+                            route().current('super-admin.whatsapp-index')
+                              ? 'opacity-75'
+                              : 'text-black'
+                          }`}
+                        />
+                        Whatsapp Action 
                       </span>
                     </Link>
                   </li>
@@ -292,25 +312,47 @@ export default function Sidebar() {
                   className='menu menu-sm dropdown-content mt-10 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
                 >
                   {auth.user.role == 'Super_Admin' && (
-                    <li>
-                      <Link
-                        href={route('super-admin.index')}
-                        className={`text-sm hover:text-success ${
-                          route().current('super-admin.*')
-                            ? 'text-success'
-                            : 'text-black'
-                        }`}
-                      >
-                        <MdDashboard
-                          className={`text-sm ${
-                            route().current('super-admin.*')
+                    <>
+                      <li>
+                        <Link
+                          href={route('super-admin.index')}
+                          className={`text-sm hover:text-success ${
+                            route().current('super-admin.index')
                               ? 'text-success'
                               : 'text-black'
                           }`}
-                        />
-                        Dashboard
-                      </Link>
-                    </li>
+                        >
+                          <MdDashboard
+                            className={`text-sm ${
+                              route().current('super-admin.index')
+                                ? 'text-success'
+                                : 'text-black'
+                            }`}
+                          />
+                          Dashboard
+                        </Link>
+                      </li>
+                      
+                      <li>
+                        <Link
+                          href={route('super-admin.whatsapp-index')}
+                          className={`text-sm hover:text-success ${
+                            route().current('super-admin.whatsapp-index')
+                              ? 'text-success'
+                              : 'text-black'
+                          }`}
+                        >
+                          <MdDashboard
+                            className={`text-sm ${
+                              route().current('super-admin.whatsapp-index')
+                                ? 'text-success'
+                                : 'text-black'
+                            }`}
+                          />
+                          Whatsapp Action
+                        </Link>
+                      </li>
+                    </>
                   )}
 
                   {auth.user.role == 'Seksi' && (

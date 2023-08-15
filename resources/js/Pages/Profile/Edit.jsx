@@ -48,6 +48,8 @@ const Edit = () => {
     url = '/masyarakat/dashboard';
   }
 
+  console.log(auth);
+
   return (
     <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
       <div className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between'>
@@ -70,9 +72,9 @@ const Edit = () => {
                       <div className='flex space-x-4 items-center'>
                         <div className='avatar'>
                           <div className='w-24 rounded-full ring ring-[#355D32] ring-offset-base-100 ring-offset-2'>
-                            {previewImage ? (
+                            {previewImage || auth.user.gambar ? (
                               <img
-                                src={previewImage}
+                                src={previewImage || `http://pendataan-pengaduan-masyarakat.test/${auth.user.gambar}`}
                                 alt='Preview'
                                 className='w-24 h-24'
                               />
