@@ -2,16 +2,34 @@
 
 namespace App\Http\Controllers\Seksi;
 
-use App\Http\Controllers\Controller;
-use App\Models\Pemohon;
-use App\Models\Penanganan;
+use Inertia\Inertia;
 use App\Models\Seksi;
 use App\Models\Status;
+use App\Models\Pemohon;
+use App\Models\Penanganan;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
+    public function sendFonnteMessage($no_telpon, $message)
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Dg9BpT1Tder@_ZeBfPJa',
+        ])->post('https://api.fonnte.com/send', [
+            'target' => $no_telpon,
+            'message' => $message,
+            'countryCode' => '62',
+        ]);
+
+        if ($response->failed()) {
+            return response()->json(['error' => 'Failed to send message'], 500);
+        }
+
+        return $response->json();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -92,8 +110,13 @@ class DashboardController extends Controller
 
         if ($allPending) {
             $findPemohon->status_id = $isPending->id;
-        } elseif ($allFinis){
+        } elseif ($allFinis) {
             $findPemohon->status_id = $isFinis->id;
+
+            $message = "Status pengajuan Anda dengan nama $findPemohon->nama_pemohon, nik $findPemohon->nik telah selesai diproses.";
+
+            $no_telpon = $findPemohon->no_telpon;
+            $this->sendFonnteMessage($no_telpon, $message);
         } else {
             $findPemohon->status_id = $isProcessing->id;
         }

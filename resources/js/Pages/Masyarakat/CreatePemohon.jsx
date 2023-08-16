@@ -85,7 +85,7 @@ const CreatePemohon = props => {
               onChange={handleChangeForm}
               required
             >
-              <option disabled={true}>Jenis Pengaduan</option>
+              <option value={''}>Jenis Pengaduan</option>
               {allJenisPengaduanAndException.semuaJenisPengaduan.map(
                 (data, i) => {
                   return (

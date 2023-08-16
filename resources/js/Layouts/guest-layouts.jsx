@@ -9,7 +9,6 @@ const GuestLayouts = ({ children }) => {
     url = menentukanDashboardUrl(auth.user.role);
   }
   
-  console.log(auth);
   return (
     <div className='relative w-full min-h-screen'>
       <div className='navbar absolute text-base-100'>

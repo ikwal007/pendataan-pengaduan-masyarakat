@@ -4,7 +4,6 @@ import { usePage } from '@inertiajs/react';
 
 export default function HeaderStats() {
   const { dataForStats } = usePage().props;
-  console.log(dataForStats);
   return (
     <div className='relative bg-gradient-to-r from-[#355D32] via-[#64903B] to-[#355D32] md:pt-32 pb-32 pt-12'>
       <div className='px-4 md:px-10 mx-auto w-full'>

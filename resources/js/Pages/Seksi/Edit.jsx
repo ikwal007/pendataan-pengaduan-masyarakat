@@ -21,7 +21,6 @@ const Edit = () => {
     e.preventDefault();
     patch(route('seksi.update', [dataForShowDetail.id]), {
       preserveScroll: true,
-      onSuccess: () => reset(),
     });
   };
 
