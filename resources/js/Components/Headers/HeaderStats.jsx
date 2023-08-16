@@ -4,6 +4,7 @@ import { usePage } from '@inertiajs/react';
 
 export default function HeaderStats() {
   const { dataForStats } = usePage().props;
+  console.log(dataForStats);
   return (
     <div className='relative bg-gradient-to-r from-[#355D32] via-[#64903B] to-[#355D32] md:pt-32 pb-32 pt-12'>
       <div className='px-4 md:px-10 mx-auto w-full'>
@@ -55,11 +56,19 @@ export default function HeaderStats() {
             </div>
             <div className='w-full lg:w-6/12 xl:w-3/12 px-4'>
               <CardStats
-                statSubtitle={!dataForStats.masyarakat ? 'finis' : 'masyarakat'}
+                statSubtitle={
+                  dataForStats.masyarakat != null
+                    ? 'masyarakat'
+                    : dataForStats.finis != null
+                    ? 'finis'
+                    : null
+                }
                 statTitle={
-                  !dataForStats.masyarakat
+                  dataForStats.masyarakat != null
+                    ? dataForStats.masyarakat
+                    : dataForStats.finis != null
                     ? dataForStats.finis
-                    : dataForStats.masyarakat
+                    : null
                 }
                 statIconName={
                   !dataForStats.masyarakat ? 'TbChecklist' : 'FaUsers'
