@@ -55,6 +55,12 @@ const EditPeninjauPemohon = () => {
                       <ShowDetail.Dd children={dataForShowDetail.nik} />
                     </ShowDetail.Bi>
                   ) : null}
+                  {dataForShowDetail.no_telpon !== null ? (
+                    <ShowDetail.Bi>
+                      <ShowDetail.Dt children={`No Telpon`} />
+                      <ShowDetail.Dd children={dataForShowDetail.no_telpon} />
+                    </ShowDetail.Bi>
+                  ) : null}
                   {dataForShowDetail.desa ? (
                     <ShowDetail.Bi>
                       <ShowDetail.Dt children={`Desa`} />

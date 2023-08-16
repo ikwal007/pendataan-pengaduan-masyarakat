@@ -17,6 +17,7 @@ const CreatePemohon = props => {
     jenis_media_pengaduan: '',
     nama_pemohon: '',
     no_nik: '',
+    no_telpon: '',
     no_hak: '',
     jenis_sertifikat: '',
     keterangan_laporan_pengaduan: '',
@@ -160,6 +161,27 @@ const CreatePemohon = props => {
                 value={data.no_nik}
                 type='number'
                 placeholder='Masukan NIK Pemohon'
+                className='input input-bordered w-full max-w-xs'
+                required
+              />
+              {errors.no_nik ? (
+                <label className='label'>
+                  <span className='label-text-alt'>{errors.no_nik}</span>
+                </label>
+              ) : null}
+            </div>
+          ) : null}
+          {form == true && data.jenis_pengaduan !== '' ? (
+            <div className='form-control w-full max-w-xs'>
+              <label className='label'>
+                <span className='label-text'>No Telpon</span>
+              </label>
+              <input
+                name='no_telpon'
+                onChange={handleChangeForm}
+                value={data.no_telpon}
+                type='text'
+                placeholder='Masukan no telpon Pemohon'
                 className='input input-bordered w-full max-w-xs'
                 required
               />

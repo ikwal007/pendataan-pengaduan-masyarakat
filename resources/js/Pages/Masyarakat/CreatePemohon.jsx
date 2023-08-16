@@ -21,6 +21,7 @@ const CreatePemohon = props => {
     jenis_media_pengaduan: jenisMediaPengaduan.id,
     nama_pemohon: auth.user.name,
     no_nik: auth.user.nik,
+    no_telpon: '',
     no_hak: '',
     jenis_sertifikat: '',
     keterangan_laporan_pengaduan: '',
@@ -97,6 +98,27 @@ const CreatePemohon = props => {
             </select>
           </div>
 
+          {form == true ? (
+            <div className='form-control w-full max-w-xs'>
+              <label className='label'>
+                <span className='label-text'>No Telpon</span>
+              </label>
+              <input
+                name='no_telpon'
+                onChange={handleChangeForm}
+                value={data.no_telpon}
+                type='text'
+                placeholder='Type here'
+                className='input input-bordered w-full max-w-xs'
+                required
+              />
+              {errors.no_hak ? (
+                <label className='label'>
+                  <span className='label-text-alt'>{errors.no_hak}</span>
+                </label>
+              ) : null}
+            </div>
+          ) : null}
           {form == true ? (
             <div className='form-control w-full max-w-xs'>
               <label className='label'>

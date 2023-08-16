@@ -1,6 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
-import model1 from '/public/assets/imgs/model1.jpg';
 import { FaUserCircle } from 'react-icons/fa';
 const UserDropdown = () => {
   const { auth } = usePage().props;
@@ -16,7 +15,7 @@ const UserDropdown = () => {
                 className='w-24 h-24'
               />
             ) : (
-              <FaUserCircle className='w-24 h-24 text-[#355D32]' />
+              <FaUserCircle className='w-10 h-10 text-white' />
             )}
           </div>
         </label>

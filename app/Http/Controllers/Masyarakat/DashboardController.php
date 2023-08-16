@@ -76,6 +76,7 @@ class DashboardController extends Controller
         $pemohon->jenis_media_pengaduan_id = $request->jenis_media_pengaduan;
         $pemohon->nama_pemohon = $request->nama_pemohon;
         $pemohon->nik = $findJenisPengaduan->pengecualianJenisPengaduan->id === $request->jenis_pengaduan ? null : $request->no_nik;
+        $pemohon->no_telpon = $findJenisPengaduan->pengecualianJenisPengaduan->id === $request->jenis_pengaduan ? null : $request->no_telpon;
         $pemohon->no_hak = $findJenisPengaduan->pengecualianJenisPengaduan->id === $request->jenis_pengaduan ? null : $request->no_hak;
         $pemohon->jenis_sertifikat_id = $findJenisPengaduan->pengecualianJenisPengaduan->id === $request->jenis_pengaduan ? null : $request->jenis_sertifikat;
         $pemohon->keterangan_pengaduan_pemohon = $request->keterangan_laporan_pengaduan;

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignUlid('jenis_media_pengaduan_id');
             $table->string('nama_pemohon', 50);
             $table->string('nik', 16)->nullable();
+            $table->string('no_telepon', 20);
             $table->string('no_hak', 30)->nullable();
             $table->foreignUlid('jenis_sertifikat_id')->nullable();
             $table->text('keterangan_pengaduan_pemohon');

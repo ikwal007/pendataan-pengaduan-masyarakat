@@ -2,11 +2,22 @@ import Seo from '@/Components/Seo/Seo';
 import ShowDetail from '@/Components/ShowDetails/ShowDetail';
 import LogedLayouts from '@/Layouts/loged-layouts';
 import { Link, usePage } from '@inertiajs/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 
 const Show = () => {
-  const { auth } = usePage().props;
+  const { auth, flash } = usePage().props;
+  const [showFlash, setShowFlash] = useState(false);
+
+  useEffect(() => {
+    if (flash.message) {
+      setShowFlash(true);
+      const timer = setTimeout(() => {
+        setShowFlash(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [flash.message]);
 
   let url = '';
   if (auth && auth.user) {
@@ -17,6 +28,12 @@ const Show = () => {
     <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
       <div className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between'>
         <div className='overflow-x-auto w-full'>
+          {showFlash && flash.message && (
+            <div className='alert alert-success my-3'>
+              <BiCheck />
+              <span>{flash.message}</span>
+            </div>
+          )}
           {auth && auth.user && (
             <ShowDetail patch={url}>
               <ShowDetail.Head>
@@ -53,7 +70,7 @@ const Show = () => {
                   <ShowDetail.Dd
                     children={
                       <Link
-                        to={editProfileUrl(auth.user.id)}
+                        href={editProfileUrl(auth.user.id)}
                         className='btn btn-success'
                       >
                         ubah
@@ -77,7 +94,7 @@ Show.layout = page => (
   </LogedLayouts>
 );
 
-function menentukanDashboardUrl(role){
+function menentukanDashboardUrl(role) {
   switch (role) {
     case 'Super_Admin':
       return '/super-admin/dashboard';
@@ -97,7 +114,11 @@ function renderAvatar(gambar) {
     <div className='avatar'>
       <div className='w-24 rounded-full ring ring-[#355D32] ring-offset-base-100 ring-offset-2'>
         {gambar ? (
-          <img src={`http://pendataan-pengaduan-masyarakat.test/${gambar}`} alt='Profile' className='w-24 h-24' />
+          <img
+            src={`http://pendataan-pengaduan-masyarakat.test/${gambar}`}
+            alt='Profile'
+            className='w-24 h-24'
+          />
         ) : (
           <FaUserCircle className='w-24 h-24 text-[#355D32]' />
         )}
