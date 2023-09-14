@@ -249,4 +249,15 @@ class Pemohon extends Model
 
         return $dataCount;
     }
+
+    public function lock(User $user)
+    {
+        $this->locked_by = $user->id;
+        $this->save();
+    }
+
+    public function unlock(){
+        $this->locked_by = null;
+        $this->save();
+    }
 }

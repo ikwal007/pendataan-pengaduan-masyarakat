@@ -5,7 +5,7 @@ import { usePage, router, useForm } from '@inertiajs/react';
 import React from 'react';
 
 const EditPeninjauPemohon = () => {
-  const { dataForShowDetail, allSeksi } = usePage().props;
+  const { dataForShowDetail, allSeksi, auth } = usePage().props;
 
   const { data, setData, patch, processing, errors } = useForm({
     'seksi survei dan pemetaan': false,
@@ -26,7 +26,7 @@ const EditPeninjauPemohon = () => {
 
   const submit = e => {
     e.preventDefault();
-    patch(route('pelayanan-publik.peninjauan-pemohon-update', dataForShowDetail.id))
+    patch(`/pelayanan-publik/peninjauan-pemohon/${dataForShowDetail.id}?pelayanId=${auth.user.id}`)
   };
 
   return (

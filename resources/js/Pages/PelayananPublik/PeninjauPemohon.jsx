@@ -5,7 +5,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { BiCheck, BiEraser } from 'react-icons/bi';
 import React, { useDeferredValue, useEffect, useState } from 'react';
 
-const PeninjauwanPemohon = () => {
+const PeninjauwanPemohon = (props) => {
   const { flash, dataForTable } = usePage().props;
   const [ keyword, setKeyword ] = useState('');
   const [results, setResults] = useState([]);
@@ -64,7 +64,7 @@ const PeninjauwanPemohon = () => {
               <Table.Td>{data.nik}</Table.Td>
               <Table.Td>{data.status.status}</Table.Td>
               <Table.Td>
-                <Table.Link href={route(`pelayanan-publik.peninjauan-pemohon-edit`, [data.id])}>
+                <Table.Link href={`/pelayanan-publik/peninjauan-pemohon/${data.id}?pelayanId=${props.auth.user.id}`}>
                   Tambahkan Penanganan
                 </Table.Link>
               </Table.Td>
@@ -89,6 +89,7 @@ const PeninjauwanPemohon = () => {
     nextLink = '';
   }
 
+  console.log(props.auth.user.id);
   return (
     <section className='relative box-border p-5 md:py-20 md:px-10 lg:py-0 w-full'>
       <div className='flex flex-wrap p-2 md:p-5 w-full bg-base-200 md:justify-between'>
